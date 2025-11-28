@@ -1,0 +1,8 @@
+{
+  "student_id": "freshman_001",
+  "gpa": 3.2,
+  "major": "Undecided",
+  "career_interests": ["Data Science"],
+  "learning_style": "Visual",
+  "study_hours": 9
+}

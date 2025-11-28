@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartCourse - Dashboard</title>
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="../assets/fontawesome/css/all.css">
+</head>
+<body>
+    <div class="header">
+        <div class="logo">SmartCourse</div>
+        <div class="user-section">
+            <span id="userName">Student Name</span>
+            <div class="user-avatar-small" id="userAvatar">S</div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <div class="sidebar-icon active" data-view="dashboard-view" title="Dashboard">
+                <i class="fa-regular fa-house"></i>
+            </div>
+            <div class="sidebar-icon" data-view="recommendations-view" title="Recommendations">
+                <i class="fa-solid fa-book"></i>
+            </div>
+            <div class="sidebar-icon" data-view="courses-view" title="Browse Courses">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+            <div class="sidebar-icon" data-view="profile-view" title="Profile">
+                <i class="fa-regular fa-user"></i>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="profile-card">
+                <div class="profile-avatar" id="profileAvatar">S</div>
+                <div class="profile-name" id="profileName">Loading...</div>
+                <div class="profile-major" id="profileMajor">Loading...</div>
+
+                <div class="profile-stats">
+                    <div class="stat-box">
+                        <div class="stat-value" id="statGPA">0.0</div>
+                        <div class="stat-label">High School GPA</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value" id="statCourses">0</div>
+                        <div class="stat-label">Recommendations</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-area">
+                <!-- DASHBOARD VIEW -->
+                <div id="dashboard-view" class="content-view active">
+                    <div class="recommendations-section">
+                        <div class="card-header" style="display:flex; justify-content:space-between; align-items:center;">
+                            <h2>Your Course Recommendations</h2>
+                            <button class="btn-primary" onclick="generateRecommendations()">Refresh</button>
+                        </div>
+
+                        <div class="tabs">
+                            <button class="tab active" onclick="switchTab(event,'all')">All</button>
+                            <button class="tab" onclick="switchTab(event,'required')">Major</button>
+                            <button class="tab" onclick="switchTab(event,'electives')">Electives</button>
+                        </div>
+
+                        <div class="course-list" id="recommendationsContainer"></div>
+                    </div>
+                </div>
+
+                <!-- RECOMMENDATIONS VIEW -->
+                <div id="recommendations-view" class="content-view">
+                    <div class="recommendations-section">
+                        <div class="card-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 15px;">
+                            <h2 style="margin: 0;">All Recommendations</h2>
+                            <button class="btn-primary" onclick="generateRecommendationsForView()">Refresh</button>
+                        </div>
+                        
+                        <div class="tabs">
+                            <button class="tab active" onclick="switchTab(event,'all')">All</button>
+                            <button class="tab" onclick="switchTab(event,'required')">Major Required</button>
+                            <button class="tab" onclick="switchTab(event,'electives')">Electives</button>
+                        </div>
+                        
+                        <div class="course-list"></div>
+                    </div>
+                </div>
+
+                <!-- COURSES VIEW -->
+                <div id="courses-view" class="content-view">
+                    <div class="recommendations-section" id="coursesContainer">
+                        <p>Loading courses...</p>
+                    </div>
+                </div>
+
+                <!-- PROFILE VIEW -->
+                <div id="profile-view" class="content-view">
+                    <div id="profileSection">
+                        <h2>Complete Your Profile</h2>
+                        
+                        <!-- Alert container for inline messages -->
+                        <div id="profileAlert"></div>
+
+                        <form id="profileForm">
+                            <!-- Hidden student ID field -->
+                            <input type="hidden" id="studentId" value="1">
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="careerInterests">Career Interests</label>
+                                    <input type="text" id="careerInterests" 
+                                           placeholder="e.g., Software Engineering, Data Science" 
+                                           required>
+                                    <small style="color: #6b7280; font-size: 0.85rem;">Separate multiple interests with commas</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="learningStyle">Learning Style</label>
+                                    <select id="learningStyle" required>
+                                        <option value="">Select a style</option>
+                                        <option value="Visual">Visual</option>
+                                        <option value="Hands-on">Hands-on</option>
+                                        <option value="Reading">Reading</option>
+                                        <option value="Analytical">Analytical</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="studyHours">Study Hours / Week</label>
+                                    <input type="number" id="studyHours" value="10" min="1" max="168" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="extracurricular">Extracurricular Interests</label>
+                                    <input type="text" id="extracurricular" 
+                                           placeholder="e.g., Sports, Music, Clubs">
+                                    <small style="color: #6b7280; font-size: 0.85rem;">Separate multiple interests with commas</small>
+                                </div>
+                            </div>
+
+                            <div style="display:flex; gap:10px; margin-top: 20px;">
+                                <button type="submit" class="btn-primary">Save Profile</button>
+                                <button type="button" class="btn-secondary" onclick="document.querySelector('[data-view=\'dashboard-view\']').click()">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/dashboard.js"></script>
+</body>
+</html>
