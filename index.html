@@ -4,24 +4,17 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>SmartCourse — Course Recommendation</title>
-    <!-- Tailwind CDN for utility classes used in the original design -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-      /* small helper to smoothly animate the card rotation on hover */
       .rotate-hover { transition: transform .3s ease; }
       .rotate-hover:hover { transform: rotate(0deg) !important; }
     </style>
   </head>
   <body class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 font-sans">
-    <!-- Navigation -->
     <nav class="bg-white shadow-md sticky top-0 z-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
           <div class="flex items-center space-x-2">
-            <!-- Book icon (simple SVG) -->
-            <svg class="w-8 h-8 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6v12m8-9a2 2 0 00-2-2H6a2 2 0 00-2 2v9a2 2 0 002 2h12a2 2 0 002-2V9z" />
-            </svg>
             <span class="text-xl font-bold text-gray-800">SmartCourse</span>
           </div>
 
@@ -38,11 +31,9 @@
           </div>
 
           <button id="mobile-menu-button" class="md:hidden p-2">
-            <!-- Hamburger -->
             <svg id="icon-open" class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
-            <!-- X icon, hidden by default -->
             <svg id="icon-close" class="w-6 h-6 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -50,7 +41,6 @@
         </div>
       </div>
 
-      <!-- Mobile Menu -->
       <div id="mobile-menu" class="md:hidden bg-white border-t hidden">
         <div class="px-4 py-4 space-y-3">
           <a href="#home" class="block text-gray-700">Home</a>
@@ -63,7 +53,6 @@
       </div>
     </nav>
 
-    <!-- Hero Section -->
     <section id="home" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
       <div class="grid md:grid-cols-2 gap-12 items-center">
         <div class="space-y-6">
@@ -80,7 +69,6 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
               </svg>
             </a>
-            <a href="#" class="px-8 py-4 border-2 border-gray-300 text-gray-700 rounded-lg hover:border-blue-600 hover:text-blue-600 transition text-lg font-semibold">Watch Demo</a>
           </div>
         </div>
 
@@ -102,7 +90,6 @@
       </div>
     </section>
 
-    <!-- Stats Section -->
     <section class="bg-white py-16">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
@@ -126,7 +113,6 @@
       </div>
     </section>
 
-    <!-- Features Section -->
     <section id="features" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
       <div class="text-center mb-16">
         <h2 class="text-4xl font-bold text-gray-900 mb-4">Powerful Features</h2>
@@ -160,7 +146,6 @@
       </div>
     </section>
 
-    <!-- Objectives Section -->
     <section id="about" class="bg-gradient-to-r from-blue-600 to-purple-600 py-20">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
@@ -178,7 +163,6 @@
       </div>
     </section>
 
-    <!-- CTA Section -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
       <div class="bg-gradient-to-r from-blue-500 to-purple-600 rounded-3xl p-12 text-center shadow-2xl">
         <h2 class="text-4xl font-bold text-white mb-4">Ready to Start Your Academic Journey?</h2>
@@ -187,13 +171,11 @@
       </div>
     </section>
 
-    <!-- Footer -->
     <footer id="contact" class="bg-gray-900 text-white py-12">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid md:grid-cols-4 gap-8">
           <div>
             <div class="flex items-center space-x-2 mb-4">
-              <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6v12m8-9a2 2 0 00-2-2H6a2 2 0 00-2 2v9a2 2 0 002 2h12a2 2 0 002-2V9z"/></svg>
               <span class="text-lg font-bold">SmartCourse</span>
             </div>
             <p class="text-gray-400">Empowering freshmen with intelligent course recommendations</p>
@@ -229,7 +211,6 @@
     </footer>
 
     <script>
-      // Mobile menu toggle
       const menuBtn = document.getElementById('mobile-menu-button');
       const mobileMenu = document.getElementById('mobile-menu');
       const iconOpen = document.getElementById('icon-open');
@@ -237,7 +218,6 @@
 
       menuBtn.addEventListener('click', () => {
         const open = mobileMenu.classList.toggle('hidden');
-        // when classList.toggle returns true it's now hidden, so we should toggle icons accordingly
         if (mobileMenu.classList.contains('hidden')) {
           iconOpen.classList.remove('hidden');
           iconClose.classList.add('hidden');

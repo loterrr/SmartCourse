@@ -8,7 +8,6 @@
 </head>
 <body>
     <div class="auth-container">
-        <!-- Sidebar -->
         <div class="auth-sidebar">
             <h1>
                 <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -28,7 +27,6 @@
             </ul>
         </div>
 
-        <!-- Form Container -->
         <div class="auth-form-container">
             <div class="auth-tabs">
                 <button class="auth-tab active" onclick="switchAuthTab(event, 'login')">Login</button>
@@ -37,7 +35,6 @@
 
             <div id="alertContainer"></div>
 
-            <!-- Login Form -->
             <div id="loginForm" class="form-content active">
                 <form onsubmit="handleLogin(event)">
                     <div class="form-group">
@@ -58,7 +55,6 @@
                 </form>
             </div>
 
-            <!-- Registration Form -->
             <div id="registerForm" class="form-content">
                 <form onsubmit="handleRegister(event)">
                     <div class="form-row">
