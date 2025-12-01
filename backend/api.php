@@ -240,38 +240,63 @@ class CourseRecommendationAPI {
 
 // Handle API routing only when executed via web server (not CLI). This avoids
 // attempting a DB connection when the file is included by CLI test scripts.
+// ... existing code above ...
+
+// Handle API routing
 if (php_sapi_name() !== 'cli') {
     try {
-        // Handle API routing
         $api = new CourseRecommendationAPI();
-        $action = $_GET['action'] ?? '';
-        $data = json_decode(file_get_contents('php://input'), true);
+        
+        // 1. Get the JSON Body (if any)
+        $inputJSON = file_get_contents('php://input');
+        $data = json_decode($inputJSON, true) ?? [];
+
+        // 2. SMARTER ACTION DETECTION
+        // Check URL first (?action=...), then Check JSON body ({action:...}), then default to empty
+        $action = $_GET['action'] ?? $data['action'] ?? '';
+
+        // Debugging: If action is missing, tell us what we received
+        if (empty($action)) {
+            echo json_encode([
+                'error' => 'Invalid action', 
+                'debug_received_get' => $_GET,
+                'debug_received_json' => $data
+            ]);
+            exit;
+        }
 
         switch ($action) {
-            case 'register': echo json_encode($api->register($data)); break;
-            case 'login': echo json_encode($api->login($data)); break;
+            case 'register': 
+                echo json_encode($api->register($data)); 
+                break;
+            case 'login': 
+                echo json_encode($api->login($data)); 
+                break;
             case 'profile':
                 if ($_SERVER['REQUEST_METHOD'] === 'POST')
                     echo json_encode($api->saveProfile($data));
                 else
                     echo json_encode($api->getProfile($_GET['student_id'] ?? 0));
                 break;
-            case 'courses': echo json_encode($api->getCourses()); break;
-            case 'recommendations': echo json_encode($api->getRecommendations($_GET['student_id'] ?? 0)); break;
+            case 'courses': 
+                echo json_encode($api->getCourses()); 
+                break;
+            case 'recommendations': 
+                echo json_encode($api->getRecommendations($_GET['student_id'] ?? 0)); 
+                break;
             case 'enroll':
-                // Expect JSON body with student_id, course_id, semester
                 echo json_encode($api->enroll($data));
                 break;
             case 'feedback':
-                // Expect JSON body with student_id, course_id, rating, comments
                 echo json_encode($api->submitFeedback($data));
                 break;
-            default: echo json_encode(['error' => 'Invalid action']);
+            default: 
+                echo json_encode(['error' => 'Unknown action: ' . $action]);
         }
     } catch (Exception $e) {
-        // Return JSON error for easier client-side handling
         http_response_code(500);
         echo json_encode(['success' => false, 'message' => $e->getMessage()]);
     }
 }
+?>
 ?>
