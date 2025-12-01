@@ -1,4 +1,4 @@
-const API_BASE = '../backend/api.php';
+const API_BASE = '/backend/api.php';
 let currentStudent = null;
 let recommendations = [];
 
