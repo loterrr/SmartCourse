@@ -1,12 +1,17 @@
 FROM php:8.2-apache
 
-# Copy your source code into the web server directory
-COPY . /var/www/html/
+# --- THIS IS THE MISSING PART ---
+# Install the PHP extensions for MySQL
+RUN docker-php-ext-install mysqli pdo pdo_mysql && docker-php-ext-enable mysqli
+# --------------------------------
 
-# Enable URL rewriting (useful for routing)
+# Enable URL rewriting
 RUN a2enmod rewrite
 
-# Allow the web server to bind to Railway's dynamic port
+# Copy your source code
+COPY . /var/www/html/
+
+# Configure the port for Railway
 RUN sed -i 's/80/${PORT}/g' /etc/apache2/sites-available/000-default.conf /etc/apache2/ports.conf
 
 # Start Apache
