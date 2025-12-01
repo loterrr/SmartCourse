@@ -1,24 +1,41 @@
 <?php
 // config.php - Database Configuration
-define('DB_HOST', 'mysql.railway.internal');
-define('DB_USER', 'root');
-define('DB_PASS', 'nwebMgjnXRQwibFgCCYstwbiSTVlQYMr');
-define('DB_NAME', 'course_recommendation_db');
 
 class Database {
     private $conn;
     
     public function __construct() {
+        // Read credentials from Railway Environment Variables
+        // These match the variables shown in your screenshot (Image 2)
+        $host = getenv('MYSQLHOST');
+        $port = getenv('MYSQLPORT');
+        $user = getenv('MYSQLUSER');
+        $pass = getenv('MYSQLPASSWORD');
+        $dbname = getenv('MYSQLDATABASE');
+
+        // Fallback for local testing (optional, remove if not needed)
+        if (!$host) {
+             // You can keep your hardcoded values here ONLY for local testing
+             $host = 'localhost';
+             $port = '3306';
+             $user = 'root';
+             $pass = ''; 
+             $dbname = 'course_recommendation_db';
+        }
+
         try {
-            $this->conn = new PDO(
-                "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME,
-                DB_USER,
-                DB_PASS
-            );
+            // Updated Connection String: Includes PORT
+            $dsn = "mysql:host=$host;port=$port;dbname=$dbname;charset=utf8mb4";
+            
+            $this->conn = new PDO($dsn, $user, $pass);
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            
         } catch(PDOException $e) {
-            // Throw an exception so the API router can return a JSON error instead of terminating with HTML.
-            throw new Exception("Connection failed: " . $e->getMessage());
+            // Log the specific error to your internal logs
+            error_log("Database Connection Error: " . $e->getMessage());
+            
+            // Throw generic error to frontend
+            throw new Exception("Database connection failed.");
         }
     }
     
