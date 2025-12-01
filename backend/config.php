@@ -1,8 +1,8 @@
 <?php
 // config.php - Database Configuration
-define('DB_HOST', 'localhost');
+define('DB_HOST', 'mysql.railway.internal');
 define('DB_USER', 'root');
-define('DB_PASS', '');
+define('DB_PASS', 'nwebMgjnXRQwibFgCCYstwbiSTVlQYMr');
 define('DB_NAME', 'course_recommendation_db');
 
 class Database {
