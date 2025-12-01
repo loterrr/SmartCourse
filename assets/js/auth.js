@@ -3,7 +3,7 @@
 
 // Use a path that works when this script is loaded from pages/*.html
 // pages/* are one level down, so backend API lives at ../backend/api.php
-const API_BASE = '../backend/api.php';
+const API_BASE = '/backend/api.php';
 
 function switchAuthTab(e, tab) {
 	document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
