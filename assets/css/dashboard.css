@@ -1,4 +1,11 @@
-* { margin: 0; padding: 0; box-sizing: border-box; }
+/* =========================================
+   RESET & BASIC SETUP
+   ========================================= */
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+}
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
@@ -7,6 +14,9 @@ body {
     min-height: 100vh;
 }
 
+/* =========================================
+   HEADER
+   ========================================= */
 .header {
     display: flex;
     justify-content: space-between;
@@ -53,6 +63,9 @@ body {
     background: #5a7bc9; 
 }
 
+/* =========================================
+   LAYOUT CONTAINER
+   ========================================= */
 .container { 
     display: flex; 
     gap: 20px; 
@@ -60,6 +73,9 @@ body {
     margin: 0 auto; 
 }
 
+/* =========================================
+   SIDEBAR (DESKTOP DEFAULT)
+   ========================================= */
 .sidebar {
     width: 100px; 
     background: #6B8FEC; 
@@ -73,6 +89,7 @@ body {
     position: sticky; 
     top: 100px; 
     height: fit-content;
+    z-index: 100;
 }
 
 .sidebar-icon {
@@ -99,12 +116,33 @@ body {
     font-size: 40px; 
 }
 
+/* =========================================
+   MAIN CONTENT AREA
+   ========================================= */
 .main-content { 
     display: flex; 
     gap: 20px; 
     flex: 1; 
 }
 
+.content-area { 
+    flex: 1; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 40px; 
+}
+
+.content-view { 
+    display: none; 
+}
+
+.content-view.active { 
+    display: block; 
+}
+
+/* =========================================
+   PROFILE CARD
+   ========================================= */
 .profile-card {
     background: white; 
     border: 3px solid #6B8FDB; 
@@ -113,6 +151,7 @@ body {
     width: 300px; 
     height: fit-content; 
     text-align: center;
+    flex-shrink: 0;
 }
 
 .profile-avatar {
@@ -165,21 +204,9 @@ body {
     color: #555; 
 }
 
-.content-area { 
-    flex: 1; 
-    display: flex; 
-    flex-direction: column; 
-    gap: 40px; 
-}
-
-.content-view { 
-    display: none; 
-}
-
-.content-view.active { 
-    display: block; 
-}
-
+/* =========================================
+   SECTIONS & CARDS
+   ========================================= */
 .recommendations-section,
 .simple-section {
     background: white; 
@@ -192,6 +219,9 @@ body {
     margin-bottom: 20px;
 }
 
+/* =========================================
+   TABS
+   ========================================= */
 .tabs { 
     display: flex; 
     gap: 10px; 
@@ -221,6 +251,9 @@ body {
     background: #2126ba;
 }
 
+/* =========================================
+   RECOMMENDATION ITEMS
+   ========================================= */
 .course-list { 
     display: flex; 
     flex-direction: column; 
@@ -291,7 +324,9 @@ body {
     gap: 10px;
 }
 
-/* PROFILE FORM */
+/* =========================================
+   FORMS
+   ========================================= */
 #profileSection { 
     background: white; 
     border: 3px solid #6B8FDB; 
@@ -334,6 +369,9 @@ input:focus, select:focus {
     border-color: #6B8FDB;
 }
 
+/* =========================================
+   BUTTONS
+   ========================================= */
 .btn-primary {
     background: #6B8FDB; 
     color: white; 
@@ -365,7 +403,9 @@ input:focus, select:focus {
     background: #b0c2db;
 }
 
-/* COURSE SEARCH */
+/* =========================================
+   UTILITIES & LOADERS
+   ========================================= */
 .courseSearchInput {
     width: 100%;
     padding: 12px;
@@ -381,7 +421,6 @@ input:focus, select:focus {
     gap: 15px;
 }
 
-/* LOADING SPINNER */
 .loading {
     display: flex;
     flex-direction: column;
@@ -405,7 +444,9 @@ input:focus, select:focus {
     100% { transform: rotate(360deg); }
 }
 
-/* TOAST NOTIFICATIONS */
+/* =========================================
+   TOAST NOTIFICATIONS
+   ========================================= */
 .toast {
     position: fixed;
     bottom: 30px;
@@ -438,7 +479,9 @@ input:focus, select:focus {
     }
 }
 
-/* RESPONSIVE */
+/* =========================================
+   MEDIA QUERIES (MOBILE RESPONSIVE)
+   ========================================= */
 @media (max-width: 1200px) {
     .container {
         flex-direction: column;
@@ -449,6 +492,8 @@ input:focus, select:focus {
         width: 100%;
         margin-top: 0;
         position: static;
+        justify-content: center;
+        gap: 50px;
     }
     
     .main-content {
@@ -457,5 +502,180 @@ input:focus, select:focus {
     
     .profile-card {
         width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+        padding-bottom: 90px; /* Space for bottom nav */
+    }
+
+    /* Header */
+    .header {
+        margin-bottom: 20px;
+        padding: 0 5px;
+    }
+
+    .logo {
+        font-size: 22px;
+    }
+
+    #userName {
+        display: none; /* Hide name on mobile */
+    }
+
+    .logout-btn {
+        padding: 8px 16px;
+        font-size: 12px;
+    }
+
+    /* Container & Layout */
+    .container {
+        display: block;
+        gap: 15px;
+    }
+
+    .main-content {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    /* Bottom Navigation Bar (Sidebar Transformed) */
+    .sidebar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 70px;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        background: #6B8FEC;
+        border-radius: 20px 20px 0 0;
+        margin: 0;
+        padding: 0 10px;
+        z-index: 9999;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+        gap: 0;
+    }
+
+    .sidebar-icon {
+        width: 45px;
+        height: 45px;
+        background: transparent;
+    }
+
+    .sidebar-icon i {
+        font-size: 24px;
+    }
+
+    .sidebar-icon.active {
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Profile Card */
+    .profile-card {
+        width: 100%;
+        margin-bottom: 20px;
+        padding: 20px;
+    }
+
+    .profile-avatar {
+        width: 80px;
+        height: 80px;
+        font-size: 30px;
+    }
+
+    /* Content & Cards */
+    .recommendations-section, 
+    .simple-section,
+    #profileSection {
+        padding: 15px;
+        border-width: 2px;
+    }
+
+    .card-header {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+
+    .card-header h2 {
+        font-size: 20px;
+        margin: 0;
+    }
+
+    .card-header .btn-primary {
+        width: 100%;
+        padding: 8px;
+    }
+
+    /* Tabs */
+    .tabs {
+        overflow-x: auto;
+        white-space: nowrap;
+        padding-bottom: 5px;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    
+    .tabs::-webkit-scrollbar {
+        display: none;
+    }
+
+    .tab {
+        padding: 8px 15px;
+        font-size: 13px;
+        flex-shrink: 0;
+    }
+
+    /* Recommendation Items */
+    .recommendation-item {
+        padding: 15px;
+    }
+
+    .rec-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .course-meta {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .action-buttons button {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Forms */
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    #profileForm button {
+        flex: 1;
+    }
+    
+    /* Toast */
+    .toast {
+        left: 20px;
+        right: 20px;
+        bottom: 80px;
+        text-align: center;
     }
 }
