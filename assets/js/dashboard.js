@@ -239,7 +239,7 @@ async function generateRecommendationsForView() {
         </div>`;
 
     try {
-        const studentId = localStorage.getItem('student_id') || 1;
+        const studentId = localStorage.getItem('student_id');
         const res = await fetch(`${API_BASE}?action=recommendations&student_id=${studentId}&refresh=1`);
         const data = await res.json();
 
