@@ -36,7 +36,7 @@ async function handleLogin(e) {
         
         if (data && data.success && data.student) {
             // Store student information
-            localStorage.setItem('student_id', data.student_id);
+            localStorage.setItem('student_id', data.student.id);
             localStorage.setItem('student_name', `${data.student.first_name} ${data.student.last_name}`);
             
             showAlert('Login successful! Redirecting...', 'success');
