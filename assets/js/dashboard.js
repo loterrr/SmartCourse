@@ -159,7 +159,7 @@ async function loadRecommendationsTab() {
     
     container.innerHTML = "<p style='padding:20px; text-align:center;'>Loading recommendations...</p>";
 
-    const sid = localStorage.getItem('student_id') || 1;
+    const sid = localStorage.getItem('student_id');
     
     try {
         const res = await fetch(`${API_BASE}?action=recommendations&student_id=${sid}`);
@@ -269,7 +269,7 @@ async function generateRecommendations() {
         </div>`;
 
     try {
-        const studentId = localStorage.getItem('student_id') || 1;
+        const studentId = localStorage.getItem('student_id');
         const res = await fetch(`${API_BASE}?action=recommendations&student_id=${studentId}&refresh=1`);
         const data = await res.json();
 
@@ -470,7 +470,7 @@ async function enrollCourse(courseId) {
     if (!confirm("Are you sure you want to enroll in this course?")) return;
 
     try {
-        const studentId = localStorage.getItem('student_id') || 1;
+        const studentId = localStorage.getItem('student_id');
 
         const res = await fetch(`${API_BASE}?action=enroll`, {
             method: "POST",
@@ -538,7 +538,7 @@ function loadProfileForm() {
 
     // Pre-fill student id from localStorage if not set
     const studentIdEl = document.getElementById('studentId');
-    if (studentIdEl && (!studentIdEl.value || studentIdEl.value === '1')) {
+    if (studentIdEl && !studentIdEl.value) {
         const sid = localStorage.getItem('student_id');
         if (sid) studentIdEl.value = sid;
     }
@@ -580,7 +580,7 @@ function setupProfileForm() {
         e.preventDefault();
 
         const studentId = document.getElementById('studentId')?.value || 
-                         localStorage.getItem('student_id') || 1;
+                         localStorage.getItem('student_id');
         
         const payload = {
             student_id: studentId,
