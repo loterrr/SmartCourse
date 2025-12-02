@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ===== STUDENT PROFILE =====
-sync function loadStudentData() {
+async function loadStudentData() {
     try {
         const studentId = localStorage.getItem('student_id');
         const res = await fetch(`${API_BASE}?action=profile&student_id=${studentId}`);
