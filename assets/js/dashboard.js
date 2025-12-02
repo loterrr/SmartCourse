@@ -36,29 +36,14 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ===== STUDENT PROFILE =====
-async function loadStudentData() {
+sync function loadStudentData() {
     try {
         const studentId = localStorage.getItem('student_id');
-        
-        if (!studentId) {
-            showError("Please login first");
-            window.location.href = 'login.html';
-            return;
-        }
-        
         const res = await fetch(`${API_BASE}?action=profile&student_id=${studentId}`);
-        
-        if (!res.ok) {
-            throw new Error(`HTTP error! status: ${res.status}`);
-        }
-        
         const data = await res.json();
-        console.log('🔍 Raw profile data:', data); // DEBUG - Check what you're getting
-        
-        // Check if data is valid
-        if (!data || !data.first_name) {
-            showError("Invalid profile data received");
-            console.error('Invalid data:', data);
+
+        if (!data) {
+            showError("Failed to load profile");
             return;
         }
 
@@ -67,8 +52,8 @@ async function loadStudentData() {
         loadRecommendations(studentId);
 
     } catch (err) {
-        console.error('❌ Error loading profile:', err);
-        showError("Error loading profile: " + err.message);
+        console.error(err);
+        showError("Error loading profile");
     }
 }
 
