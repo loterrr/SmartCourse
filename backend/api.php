@@ -75,8 +75,8 @@ class CourseRecommendationAPI {
         $p = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($p) {
             unset($p['password']);
-            $p['career_interests'] = json_decode($p['career_interests'], true);
-            $p['extracurricular_interests'] = json_decode($p['extracurricular_interests'], true);
+            $p['career_interests'] = !empty($p['career_interests']) ? json_decode($p['career_interests'], true) : [];
+            $p['extracurricular_interests'] = !empty($p['extracurricular_interests']) ? json_decode($p['extracurricular_interests'], true) : [];
         }
         return $p;
     }
@@ -276,7 +276,7 @@ if (php_sapi_name() !== 'cli') {
                 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     echo json_encode($api->saveProfile($data));
                 } else {
-                    $lookupId = $_GET['id'] ?? $_GET['id'] ?? 0;
+                    $lookupId = $_GET['id'] ?? $_GET['student_id'] ?? 0;
                     $profile = $api->getProfile($lookupId);                    
                     if ($profile === false) {
                          echo json_encode(['success' => false, 'message' => 'User not found']);
@@ -289,7 +289,8 @@ if (php_sapi_name() !== 'cli') {
                 echo json_encode($api->getCourses()); 
                 break;
             case 'recommendations': 
-                echo json_encode($api->getRecommendations($_GET['id'] ?? 0)); 
+                $recId = $_GET['id'] ?? $_GET['student_id'] ?? 0;
+                echo json_encode($api->getRecommendations($recId)); 
                 break;
             case 'enroll':
                 echo json_encode($api->enroll($data));
