@@ -273,10 +273,21 @@ if (php_sapi_name() !== 'cli') {
                 echo json_encode($api->login($data)); 
                 break;
             case 'profile':
-                if ($_SERVER['REQUEST_METHOD'] === 'POST')
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     echo json_encode($api->saveProfile($data));
-                else
-                    echo json_encode($api->getProfile($_GET['student_id'] ?? 0));
+                } else {
+                    // FIX: Look for 'id' (what JS sends) AND 'student_id'
+                    $lookupId = $_GET['id'] ?? $_GET['student_id'] ?? 0;
+                    
+                    $profile = $api->getProfile($lookupId);
+                    
+                    // FIX: Don't return plain 'false' if user not found, return a JSON error
+                    if ($profile === false) {
+                         echo json_encode(['success' => false, 'message' => 'User not found']);
+                    } else {
+                         echo json_encode($profile);
+                    }
+                }
                 break;
             case 'courses': 
                 echo json_encode($api->getCourses()); 
