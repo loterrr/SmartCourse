@@ -289,9 +289,9 @@ if (php_sapi_name() !== 'cli') {
                 echo json_encode($api->getCourses()); 
                 break;
             case 'recommendations': 
-                $recId = $_GET['id'] ?? $_GET['student_id'] ?? 0;
-                echo json_encode($api->getRecommendations($recId)); 
-                break;
+                    $recId = $_GET['id'] ?? $_GET['student_id'] ?? 0;
+                    echo json_encode($api->getRecommendations($recId)); 
+                    break;
             case 'enroll':
                 echo json_encode($api->enroll($data));
                 break;
