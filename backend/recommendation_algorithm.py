@@ -43,147 +43,136 @@ class CourseRecommendationEngine:
 
         # Built-in course catalog
         return [
-  {"id": 1, "code": "CS101", "name": "Introduction to Computer Science", "department": "Technology", "credits": 3, "difficulty": 2, "prerequisites": [], "career_relevance": ["Software Engineering", "IT", "Data Science"], "learning_style": ["Visual", "Hands-on"], "workload_hours": 8},
-  {"id": 2, "code": "MATH151", "name": "Calculus I", "department": "Engineering", "credits": 4, "difficulty": 4, "prerequisites": [], "career_relevance": ["Engineering", "Data Science", "Finance"], "learning_style": ["Analytical", "Practice-based"], "workload_hours": 12},
-  {"id": 3, "code": "ENG101", "name": "English Composition", "department": "Education", "credits": 3, "difficulty": 2, "prerequisites": [], "career_relevance": ["All"], "learning_style": ["Reading", "Writing"], "workload_hours": 6},
-  {"id": 4, "code": "PHYS101", "name": "General Physics I", "department": "Engineering", "credits": 4, "difficulty": 4, "prerequisites": ["MATH151"], "career_relevance": ["Engineering", "Science", "Medical"], "learning_style": ["Visual", "Analytical"], "workload_hours": 10},
-  {"id": 5, "code": "BIO101", "name": "Introduction to Biology", "department": "Science", "credits": 4, "difficulty": 3, "prerequisites": [], "career_relevance": ["Medical", "Research", "Healthcare"], "learning_style": ["Reading", "Visual"], "workload_hours": 9},
-  {"id": 6, "code": "ECON101", "name": "Principles of Economics", "department": "Business", "credits": 3, "difficulty": 3, "prerequisites": [], "career_relevance": ["Business", "Finance", "Policy"], "learning_style": ["Analytical", "Reading"], "workload_hours": 7},
-  {"id": 7, "code": "CHEM101", "name": "General Chemistry", "department": "Science", "credits": 4, "difficulty": 4, "prerequisites": [], "career_relevance": ["Medical", "Engineering", "Research"], "learning_style": ["Hands-on", "Analytical"], "workload_hours": 11},
-  {"id": 8, "code": "PSYCH101", "name": "Introduction to Psychology", "department": "Social Science", "credits": 3, "difficulty": 2, "prerequisites": [], "career_relevance": ["Healthcare", "Education", "Research"], "learning_style": ["Reading", "Discussion"], "workload_hours": 6},
-  {"id": 9, "code": "HIST101", "name": "World History", "department": "Social Science", "credits": 3, "difficulty": 2, "prerequisites": [], "career_relevance": ["Education", "Law", "Policy"], "learning_style": ["Reading", "Writing"], "workload_hours": 7},
-  {"id": 10, "code": "ART101", "name": "Introduction to Visual Arts", "department": "Art", "credits": 3, "difficulty": 2, "prerequisites": [], "career_relevance": ["Design", "Media", "Education"], "learning_style": ["Visual", "Hands-on"], "workload_hours": 8},
-  {"id": 11, "code": "INT001", "name": "Drawing", "department": "Creative", "credits": 3, "difficulty": 1, "prerequisites": [], "career_relevance": ["Art", "Design", "Media"], "learning_style": ["Visual", "Hands-on"], "workload_hours": 5},
-  {"id": 12, "code": "INT002", "name": "Visual Arts", "department": "Creative", "credits": 3, "difficulty": 2, "prerequisites": [], "career_relevance": ["Art", "Design"], "learning_style": ["Visual", "Hands-on"], "workload_hours": 6},
-  {"id": 13, "code": "INT003", "name": "Designing Buildings", "department": "Engineering", "credits": 3, "difficulty": 3, "prerequisites": [], "career_relevance": ["Architecture", "Construction"], "learning_style": ["Visual", "Analytical"], "workload_hours": 7},
-  {"id": 14, "code": "INT004", "name": "Interior Design", "department": "Creative", "credits": 3, "difficulty": 2, "prerequisites": [], "career_relevance": ["Interior Design", "Architecture"], "learning_style": ["Visual", "Hands-on"], "workload_hours": 6},
-  {"id": 15, "code": "INT005", "name": "Product Design", "department": "Creative", "credits": 3, "difficulty": 3, "prerequisites": [], "career_relevance": ["Design", "Engineering"], "learning_style": ["Visual", "Hands-on"], "workload_hours": 7},
-  {"id": 16, "code": "INT006", "name": "Animation", "department": "Creative", "credits": 3, "difficulty": 3, "prerequisites": [], "career_relevance": ["Media", "Film", "Art"], "learning_style": ["Visual", "Hands-on"], "workload_hours": 7},
-  {"id": 17, "code": "INT007", "name": "Storyboarding", "department": "Creative", "credits": 3, "difficulty": 2, "prerequisites": [], "career_relevance": ["Animation", "Film", "Media"], "learning_style": ["Visual", "Reading"], "workload_hours": 6},
-  {"id": 18, "code": "INT008", "name": "Computer Programming", "department": "Technology", "credits": 3, "difficulty": 3, "prerequisites": [], "career_relevance": ["Software Engineering", "IT"], "learning_style": ["Analytical", "Hands-on"], "workload_hours": 8},
-  {"id": 19, "code": "INT009", "name": "Cybersecurity", "department": "Technology", "credits": 3, "difficulty": 3, "prerequisites": [], "career_relevance": ["Cybersecurity", "IT"], "learning_style": ["Analytical", "Hands-on"], "workload_hours": 8},
-  {"id": 20, "code": "INT010", "name": "Artificial Intelligence", "department": "Technology", "credits": 3, "difficulty": 4, "prerequisites": ["CS101"], "career_relevance": ["AI", "Software", "Data Science"], "learning_style": ["Analytical", "Visual"], "workload_hours": 10},
-  {"id": 21, "code": "INT011", "name": "Gaming", "department": "Technology", "credits": 3, "difficulty": 2, "prerequisites": [], "career_relevance": ["Game Development", "IT"], "learning_style": ["Hands-on", "Visual"], "workload_hours": 7},
-  {"id": 22, "code": "INT012", "name": "Hardware & Electronics", "department": "Technology", "credits": 3, "difficulty": 3, "prerequisites": [], "career_relevance": ["Electronics", "Engineering"], "learning_style": ["Hands-on", "Analytical"], "workload_hours": 8},
-  {"id": 23, "code": "INT013", "name": "Robotics", "department": "Technology", "credits": 3, "difficulty": 3, "prerequisites": ["CS101"], "career_relevance": ["Robotics", "Engineering"], "learning_style": ["Hands-on", "Analytical"], "workload_hours": 9},
-  {"id": 24, "code": "INT014", "name": "Construction", "department": "Engineering", "credits": 3, "difficulty": 2, "prerequisites": [], "career_relevance": ["Construction", "Architecture"], "learning_style": ["Hands-on", "Visual"], "workload_hours": 7},
-  {"id": 25, "code": "INT015", "name": "Machinery & Mechanics", "department": "Engineering", "credits": 3, "difficulty": 3, "prerequisites": [], "career_relevance": ["Mechanical Engineering"], "learning_style": ["Hands-on", "Analytical"], "workload_hours": 8},
-  {"id": 26, "code": "INT016", "name": "Power Systems", "department": "Engineering", "credits": 3, "difficulty": 3, "prerequisites": [], "career_relevance": ["Electrical Engineering"], "learning_style": ["Analytical", "Visual"], "workload_hours": 8},
-  {"id": 27, "code": "INT017", "name": "Chemistry & Materials", "department": "Science", "credits": 3, "difficulty": 3, "prerequisites": [], "career_relevance": ["Chemical Engineering", "Materials Science"], "learning_style": ["Analytical", "Hands-on"], "workload_hours": 8},
-  {"id": 28, "code": "INT018", "name": "Biology", "department": "Science", "credits": 3, "difficulty": 2, "prerequisites": [], "career_relevance": ["Biology", "Healthcare"], "learning_style": ["Reading", "Visual"], "workload_hours": 7},
-  {"id": 29, "code": "INT019", "name": "Physics", "department": "Science", "credits": 3, "difficulty": 3, "prerequisites": [], "career_relevance": ["Engineering", "Physics"], "learning_style": ["Analytical", "Visual"], "workload_hours": 8},
-  {"id": 30, "code": "INT020", "name": "Scientific Research", "department": "Science", "credits": 3, "difficulty": 3, "prerequisites": [], "career_relevance": ["Research", "Science"], "learning_style": ["Reading", "Analytical"], "workload_hours": 7},
-  {"id": 31, "code": "INT021", "name": "Human Behavior", "department": "Social Science", "credits": 3, "difficulty": 2, "prerequisites": [], "career_relevance": ["Psychology", "Education"], "learning_style": ["Reading", "Visual"], "workload_hours": 6},
-  {"id": 32, "code": "INT022", "name": "Politics & Law", "department": "Social Science", "credits": 3, "difficulty": 2, "prerequisites": [], "career_relevance": ["Law", "Government"], "learning_style": ["Reading", "Discussion"], "workload_hours": 7},
-  {"id": 33, "code": "INT023", "name": "Teaching", "department": "Education", "credits": 3, "difficulty": 2, "prerequisites": [], "career_relevance": ["Education"], "learning_style": ["Reading", "Discussion"], "workload_hours": 6},
-  {"id": 34, "code": "INT024", "name": "Business", "department": "Business", "credits": 3, "difficulty": 2, "prerequisites": [], "career_relevance": ["Business", "Management"], "learning_style": ["Reading", "Analytical"], "workload_hours": 6},
-  {"id": 35, "code": "INT025", "name": "Finance", "department": "Business", "credits": 3, "difficulty": 3, "prerequisites": ["ECON101"], "career_relevance": ["Finance", "Business"], "learning_style": ["Analytical", "Reading"], "workload_hours": 8},
-  {"id": 36, "code": "INT026", "name": "Leadership", "department": "Business", "credits": 3, "difficulty": 2, "prerequisites": [], "career_relevance": ["Management", "Business"], "learning_style": ["Discussion", "Reading"], "workload_hours": 6},
-  {"id": 37, "code": "INT027", "name": "Hospitality", "department": "Business", "credits": 3, "difficulty": 2, "prerequisites": [], "career_relevance": ["Hospitality", "Tourism"], "learning_style": ["Hands-on", "Visual"], "workload_hours": 6}
-]
+            {"id": 1, "code": "CS101", "name": "Introduction to Computer Science", "department": "Technology", "credits": 3, "difficulty": 2, "prerequisites": [], "career_relevance": ["Software Engineering", "IT", "Data Science"], "learning_style": ["Visual", "Hands-on"], "workload_hours": 8},
+            {"id": 2, "code": "MATH151", "name": "Calculus I", "department": "Engineering", "credits": 4, "difficulty": 4, "prerequisites": [], "career_relevance": ["Engineering", "Data Science", "Finance"], "learning_style": ["Analytical", "Practice-based"], "workload_hours": 12},
+            {"id": 3, "code": "ENG101", "name": "English Composition", "department": "Education", "credits": 3, "difficulty": 2, "prerequisites": [], "career_relevance": ["All"], "learning_style": ["Reading", "Writing"], "workload_hours": 6},
+            {"id": 4, "code": "PHYS101", "name": "General Physics I", "department": "Engineering", "credits": 4, "difficulty": 4, "prerequisites": ["MATH151"], "career_relevance": ["Engineering", "Science", "Medical"], "learning_style": ["Visual", "Analytical"], "workload_hours": 10},
+            {"id": 5, "code": "BIO101", "name": "Introduction to Biology", "department": "Science", "credits": 4, "difficulty": 3, "prerequisites": [], "career_relevance": ["Medical", "Research", "Healthcare"], "learning_style": ["Reading", "Visual"], "workload_hours": 9},
+            {"id": 6, "code": "ECON101", "name": "Principles of Economics", "department": "Business", "credits": 3, "difficulty": 3, "prerequisites": [], "career_relevance": ["Business", "Finance", "Policy"], "learning_style": ["Analytical", "Reading"], "workload_hours": 7},
+            {"id": 7, "code": "CHEM101", "name": "General Chemistry", "department": "Science", "credits": 4, "difficulty": 4, "prerequisites": [], "career_relevance": ["Medical", "Engineering", "Research"], "learning_style": ["Hands-on", "Analytical"], "workload_hours": 11},
+            {"id": 8, "code": "PSYCH101", "name": "Introduction to Psychology", "department": "Social Science", "credits": 3, "difficulty": 2, "prerequisites": [], "career_relevance": ["Healthcare", "Education", "Research"], "learning_style": ["Reading", "Discussion"], "workload_hours": 6},
+            {"id": 9, "code": "HIST101", "name": "World History", "department": "Social Science", "credits": 3, "difficulty": 2, "prerequisites": [], "career_relevance": ["Education", "Law", "Policy"], "learning_style": ["Reading", "Writing"], "workload_hours": 7},
+            {"id": 10, "code": "ART101", "name": "Introduction to Visual Arts", "department": "Art", "credits": 3, "difficulty": 2, "prerequisites": [], "career_relevance": ["Design", "Media", "Education"], "learning_style": ["Visual", "Hands-on"], "workload_hours": 8},
+            {"id": 11, "code": "INT001", "name": "Drawing", "department": "Creative", "credits": 3, "difficulty": 1, "prerequisites": [], "career_relevance": ["Art", "Design", "Media"], "learning_style": ["Visual", "Hands-on"], "workload_hours": 5},
+            {"id": 12, "code": "INT002", "name": "Visual Arts", "department": "Creative", "credits": 3, "difficulty": 2, "prerequisites": [], "career_relevance": ["Art", "Design"], "learning_style": ["Visual", "Hands-on"], "workload_hours": 6},
+            {"id": 13, "code": "INT003", "name": "Designing Buildings", "department": "Engineering", "credits": 3, "difficulty": 3, "prerequisites": [], "career_relevance": ["Architecture", "Construction"], "learning_style": ["Visual", "Analytical"], "workload_hours": 7},
+            {"id": 14, "code": "INT004", "name": "Interior Design", "department": "Creative", "credits": 3, "difficulty": 2, "prerequisites": [], "career_relevance": ["Interior Design", "Architecture"], "learning_style": ["Visual", "Hands-on"], "workload_hours": 6},
+            {"id": 15, "code": "INT005", "name": "Product Design", "department": "Creative", "credits": 3, "difficulty": 3, "prerequisites": [], "career_relevance": ["Design", "Engineering"], "learning_style": ["Visual", "Hands-on"], "workload_hours": 7},
+            {"id": 16, "code": "INT006", "name": "Animation", "department": "Creative", "credits": 3, "difficulty": 3, "prerequisites": [], "career_relevance": ["Media", "Film", "Art"], "learning_style": ["Visual", "Hands-on"], "workload_hours": 7},
+            {"id": 17, "code": "INT007", "name": "Storyboarding", "department": "Creative", "credits": 3, "difficulty": 2, "prerequisites": [], "career_relevance": ["Animation", "Film", "Media"], "learning_style": ["Visual", "Reading"], "workload_hours": 6},
+            {"id": 18, "code": "INT008", "name": "Computer Programming", "department": "Technology", "credits": 3, "difficulty": 3, "prerequisites": [], "career_relevance": ["Software Engineering", "IT"], "learning_style": ["Analytical", "Hands-on"], "workload_hours": 8},
+            {"id": 19, "code": "INT009", "name": "Cybersecurity", "department": "Technology", "credits": 3, "difficulty": 3, "prerequisites": [], "career_relevance": ["Cybersecurity", "IT"], "learning_style": ["Analytical", "Hands-on"], "workload_hours": 8},
+            {"id": 20, "code": "INT010", "name": "Artificial Intelligence", "department": "Technology", "credits": 3, "difficulty": 4, "prerequisites": ["CS101"], "career_relevance": ["AI", "Software", "Data Science"], "learning_style": ["Analytical", "Visual"], "workload_hours": 10},
+            {"id": 21, "code": "INT011", "name": "Gaming", "department": "Technology", "credits": 3, "difficulty": 2, "prerequisites": [], "career_relevance": ["Game Development", "IT"], "learning_style": ["Hands-on", "Visual"], "workload_hours": 7},
+            {"id": 22, "code": "INT012", "name": "Hardware & Electronics", "department": "Technology", "credits": 3, "difficulty": 3, "prerequisites": [], "career_relevance": ["Electronics", "Engineering"], "learning_style": ["Hands-on", "Analytical"], "workload_hours": 8},
+            {"id": 23, "code": "INT013", "name": "Robotics", "department": "Technology", "credits": 3, "difficulty": 3, "prerequisites": ["CS101"], "career_relevance": ["Robotics", "Engineering"], "learning_style": ["Hands-on", "Analytical"], "workload_hours": 9},
+            {"id": 24, "code": "INT014", "name": "Construction", "department": "Engineering", "credits": 3, "difficulty": 2, "prerequisites": [], "career_relevance": ["Construction", "Architecture"], "learning_style": ["Hands-on", "Visual"], "workload_hours": 7},
+            {"id": 25, "code": "INT015", "name": "Machinery & Mechanics", "department": "Engineering", "credits": 3, "difficulty": 3, "prerequisites": [], "career_relevance": ["Mechanical Engineering"], "learning_style": ["Hands-on", "Analytical"], "workload_hours": 8},
+            {"id": 26, "code": "INT016", "name": "Power Systems", "department": "Engineering", "credits": 3, "difficulty": 3, "prerequisites": [], "career_relevance": ["Electrical Engineering"], "learning_style": ["Analytical", "Visual"], "workload_hours": 8},
+            {"id": 27, "code": "INT017", "name": "Chemistry & Materials", "department": "Science", "credits": 3, "difficulty": 3, "prerequisites": [], "career_relevance": ["Chemical Engineering", "Materials Science"], "learning_style": ["Analytical", "Hands-on"], "workload_hours": 8},
+            {"id": 28, "code": "INT018", "name": "Biology", "department": "Science", "credits": 3, "difficulty": 2, "prerequisites": [], "career_relevance": ["Biology", "Healthcare"], "learning_style": ["Reading", "Visual"], "workload_hours": 7},
+            {"id": 29, "code": "INT019", "name": "Physics", "department": "Science", "credits": 3, "difficulty": 3, "prerequisites": [], "career_relevance": ["Engineering", "Physics"], "learning_style": ["Analytical", "Visual"], "workload_hours": 8},
+            {"id": 30, "code": "INT020", "name": "Scientific Research", "department": "Science", "credits": 3, "difficulty": 3, "prerequisites": [], "career_relevance": ["Research", "Science"], "learning_style": ["Reading", "Analytical"], "workload_hours": 7},
+            {"id": 31, "code": "INT021", "name": "Human Behavior", "department": "Social Science", "credits": 3, "difficulty": 2, "prerequisites": [], "career_relevance": ["Psychology", "Education"], "learning_style": ["Reading", "Visual"], "workload_hours": 6},
+            {"id": 32, "code": "INT022", "name": "Politics & Law", "department": "Social Science", "credits": 3, "difficulty": 2, "prerequisites": [], "career_relevance": ["Law", "Government"], "learning_style": ["Reading", "Discussion"], "workload_hours": 7},
+            {"id": 33, "code": "INT023", "name": "Teaching", "department": "Education", "credits": 3, "difficulty": 2, "prerequisites": [], "career_relevance": ["Education"], "learning_style": ["Reading", "Discussion"], "workload_hours": 6},
+            {"id": 34, "code": "INT024", "name": "Business", "department": "Business", "credits": 3, "difficulty": 2, "prerequisites": [], "career_relevance": ["Business", "Management"], "learning_style": ["Reading", "Analytical"], "workload_hours": 6},
+            {"id": 35, "code": "INT025", "name": "Finance", "department": "Business", "credits": 3, "difficulty": 3, "prerequisites": ["ECON101"], "career_relevance": ["Finance", "Business"], "learning_style": ["Analytical", "Reading"], "workload_hours": 8},
+            {"id": 36, "code": "INT026", "name": "Leadership", "department": "Business", "credits": 3, "difficulty": 2, "prerequisites": [], "career_relevance": ["Management", "Business"], "learning_style": ["Discussion", "Reading"], "workload_hours": 6},
+            {"id": 37, "code": "INT027", "name": "Hospitality", "department": "Business", "credits": 3, "difficulty": 2, "prerequisites": [], "career_relevance": ["Hospitality", "Tourism"], "learning_style": ["Hands-on", "Visual"], "workload_hours": 6}
+        ]
 
     def _load_major_requirements(self) -> Dict[str, List[str]]:
-    return {
-        "Computer Science": [
-            "CS101",
-            "MATH151",
-            "ENG101",
-            "INT018",
-            "INT019",
-            "INT020",
-            "INT021",
-            "INT022",
-            "INT023",
-        ],
-
-        "Engineering": [
-            "MATH151",
-            "PHYS101",
-            "CHEM101",
-            "ENG101",
-            "INT024",   # Construction
-            "INT025",   # Machinery & Mechanics
-            "INT026",   # Power Systems
-        ],
-
-        "Biology": [
-            "BIO101",
-            "CHEM101",
-            "MATH151",
-            "ENG101",
-            "INT028",   # Biology (interest)
-            "INT030",   # Scientific Research
-        ],
-
-        "Business": [
-            "ECON101",
-            "MATH151",
-            "ENG101",
-            "INT024",   # Business
-            "INT025",   # Finance
-            "INT026",   # Leadership
-            "INT027",   # Hospitality
-        ],
-
-        "Psychology": [
-            "PSYCH101",
-            "BIO101",
-            "ENG101",
-            "INT021",   # Human Behavior
-        ],
-
-        "Creative Arts": [
-            "ART101",
-            "INT001",   # Drawing
-            "INT002",   # Visual Arts
-            "INT003",   # Designing Buildings
-            "INT004",   # Interior Design
-            "INT005",   # Product Design
-            "INT006",   # Animation
-            "INT007",   # Storyboarding
-        ],
-
-        "Technology": [
-            "CS101",
-            "INT018",
-            "INT019",
-            "INT020",
-            "INT021",
-            "INT022",
-            "INT023",
-        ],
-
-        "Science": [
-            "PHYS101",
-            "CHEM101",
-            "BIO101",
-            "INT027",   # Chemistry & Materials
-            "INT028",   # Biology
-            "INT029",   # Physics
-            "INT030",   # Scientific Research
-        ],
-
-        "Social Science": [
-            "PSYCH101",
-            "HIST101",
-            "INT021",   # Human Behavior
-            "INT022",   # Politics & Law
-        ],
-
-        "Education": [
-            "ENG101",
-            "INT023",   # Teaching
-            "PSYCH101",
-        ],
-
-        "Undecided": [
-            "ENG101",
-            "MATH151",
-            "PSYCH101",
-            "ART101",
-        ],
-    }
-
+        return {
+            "Computer Science": [
+                "CS101",
+                "MATH151",
+                "ENG101",
+                "INT018",
+                "INT019",
+                "INT020",
+                "INT021",
+                "INT022",
+                "INT023",
+            ],
+            "Engineering": [
+                "MATH151",
+                "PHYS101",
+                "CHEM101",
+                "ENG101",
+                "INT024",
+                "INT025",
+                "INT026",
+            ],
+            "Biology": [
+                "BIO101",
+                "CHEM101",
+                "MATH151",
+                "ENG101",
+                "INT028",
+                "INT030",
+            ],
+            "Business": [
+                "ECON101",
+                "MATH151",
+                "ENG101",
+                "INT024",
+                "INT025",
+                "INT026",
+                "INT027",
+            ],
+            "Psychology": [
+                "PSYCH101",
+                "BIO101",
+                "ENG101",
+                "INT021",
+            ],
+            "Creative Arts": [
+                "ART101",
+                "INT001",
+                "INT002",
+                "INT003",
+                "INT004",
+                "INT005",
+                "INT006",
+                "INT007",
+            ],
+            "Technology": [
+                "CS101",
+                "INT018",
+                "INT019",
+                "INT020",
+                "INT021",
+                "INT022",
+                "INT023",
+            ],
+            "Science": [
+                "PHYS101",
+                "CHEM101",
+                "BIO101",
+                "INT027",
+                "INT028",
+                "INT029",
+                "INT030",
+            ],
+            "Social Science": [
+                "PSYCH101",
+                "HIST101",
+                "INT021",
+                "INT022",
+            ],
+            "Education": [
+                "ENG101",
+                "INT023",
+                "PSYCH101",
+            ],
+            "Undecided": [
+                "ENG101",
+                "MATH151",
+                "PSYCH101",
+                "ART101",
+            ],
+        }
 
     @staticmethod
     def _calculate_gpa_score(gpa: float) -> float:
@@ -196,31 +185,30 @@ class CourseRecommendationEngine:
         matches = sum(1 for interest in student_interests if interest in course_relevance)
         return matches / max(len(student_interests), 1)
 
-    @staticmethod
-def _match_learning_style(self, student_style, course_styles):
-    if not student_style:
-        return 0.5
-    
-    # Perfect match
-    if student_style in course_styles:
-        return 1.0
-    
-    # Compatible styles
-    compatible = {
-        "Visual": ["Hands-on", "Analytical"],
-        "Hands-on": ["Visual", "Analytical"],
-        "Analytical": ["Visual", "Hands-on", "Reading"],
-        "Reading": ["Writing", "Discussion", "Analytical"],
-        "Writing": ["Reading", "Discussion"],
-        "Discussion": ["Reading", "Writing"],
-    }
-    
-    if student_style in compatible:
-        for style in course_styles:
-            if style in compatible[student_style]:
-                return 0.75  # Compatible, not perfect
-    
-    return 0.35  # No match
+    def _match_learning_style(self, student_style, course_styles):
+        if not student_style:
+            return 0.5
+        
+        # Perfect match
+        if student_style in course_styles:
+            return 1.0
+        
+        # Compatible styles
+        compatible = {
+            "Visual": ["Hands-on", "Analytical"],
+            "Hands-on": ["Visual", "Analytical"],
+            "Analytical": ["Visual", "Hands-on", "Reading"],
+            "Reading": ["Writing", "Discussion", "Analytical"],
+            "Writing": ["Reading", "Discussion"],
+            "Discussion": ["Reading", "Writing"],
+        }
+        
+        if student_style in compatible:
+            for style in course_styles:
+                if style in compatible[student_style]:
+                    return 0.75
+        
+        return 0.35
 
     @staticmethod
     def _calculate_workload_compatibility(student_hours: float, course_hours: float) -> float:
@@ -233,34 +221,34 @@ def _match_learning_style(self, student_style, course_styles):
     def _is_major_requirement(self, course_code: str, major: str) -> bool:
         return course_code in self.major_requirements.get(major, [])
 
-def _calculate_difficulty_match(self, gpa, difficulty):
-    # Find optimal difficulty for this GPA
-    if gpa >= 3.8:
-        optimal = 3.5
-    elif gpa >= 3.4:
-        optimal = 3.0
-    elif gpa >= 3.0:
-        optimal = 2.5
-    elif gpa >= 2.6:
-        optimal = 2.0
-    else:
-        optimal = 1.5
-    
-    # Score based on distance from optimal
-    distance = abs(difficulty - optimal)
-    
-    if distance == 0:
-        return 1.0
-    elif distance <= 0.5:
-        return 0.95
-    elif distance <= 1.0:
-        return 0.85
-    elif distance <= 1.5:
-        return 0.70
-    elif distance <= 2.0:
-        return 0.55
-    else:
-        return 0.40
+    def _calculate_difficulty_match(self, gpa, difficulty):
+        # Find optimal difficulty for this GPA
+        if gpa >= 3.8:
+            optimal = 3.5
+        elif gpa >= 3.4:
+            optimal = 3.0
+        elif gpa >= 3.0:
+            optimal = 2.5
+        elif gpa >= 2.6:
+            optimal = 2.0
+        else:
+            optimal = 1.5
+        
+        # Score based on distance from optimal
+        distance = abs(difficulty - optimal)
+        
+        if distance == 0:
+            return 1.0
+        elif distance <= 0.5:
+            return 0.95
+        elif distance <= 1.0:
+            return 0.85
+        elif distance <= 1.5:
+            return 0.70
+        elif distance <= 2.0:
+            return 0.55
+        else:
+            return 0.40
 
     def generate_recommendations(self, student_data: Dict[str, Any], top_n: int = 15) -> List[Dict[str, Any]]:
         """Generate top-N course recommendations for a student."""
@@ -287,7 +275,7 @@ def _calculate_difficulty_match(self, gpa, difficulty):
             difficulty_score = self._calculate_difficulty_match(gpa, int(course.get("difficulty", 3)))
 
             major_req = self._is_major_requirement(course.get("code", ""), major)
-            major_bonus = 1 if major_req else 3
+            major_bonus = 1 if major_req else 0.3
 
             base_score = (
                 career_score * self.weights["career"]
