@@ -107,119 +107,70 @@ class CourseRecommendationAPI {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-// ---------- RECOMMENDATIONS ----------
-public function getRecommendations($studentId) {
-    $profile = $this->getProfile($studentId);
-    if (!$profile) return ['success' => false, 'message' => 'Student not found'];
+    // ---------- RECOMMENDATIONS ----------
+    public function getRecommendations($studentId) {
+        $profile = $this->getProfile($studentId);
+        if (!$profile) return ['success' => false, 'message' => 'Student not found'];
 
-    // Prepare input data with proper defaults
-    $input = [
-        'student_id' => $studentId,
-        'gpa' => floatval($profile['high_school_gpa'] ?? 3.0),
-        'major' => $profile['intended_major'] ?? 'Undecided',
-        'career_interests' => is_array($profile['career_interests']) ? $profile['career_interests'] : [],
-        'learning_style' => $profile['learning_style'] ?? 'Visual',
-        'study_hours' => floatval($profile['study_hours_preference'] ?? 10)
-    ];
+        $input = json_encode([
+            'student_id' => $studentId,
+            'gpa' => $profile['high_school_gpa'],
+            'major' => $profile['intended_major'],
+            'career_interests' => $profile['career_interests'],
+            'learning_style' => $profile['learning_style'],
+            'study_hours' => $profile['study_hours_preference']
+        ]);
 
-    $inputJson = json_encode($input);
-    
-    // Create temp file with proper error handling
-    $tmpDir = sys_get_temp_dir();
-    if (!is_writable($tmpDir)) {
-        return ['success' => false, 'message' => 'Cannot write to temp directory'];
-    }
-    
-    $tmp = tempnam($tmpDir, 'student_');
-    if ($tmp === false) {
-        return ['success' => false, 'message' => 'Failed to create temp file'];
-    }
-    
-    file_put_contents($tmp, $inputJson);
+        $tmp = tempnam(sys_get_temp_dir(), 'student_');
+        file_put_contents($tmp, $input);
 
-    // Get the Python script path
-    $scriptPath = __DIR__ . DIRECTORY_SEPARATOR . 'recommendation_algorithm.py';
-    
-    if (!file_exists($scriptPath)) {
+        // Try multiple python executables (Windows commonly has 'python' or 'py')
+        $pythonBins = ['python3', 'python', 'py'];
+        $rawOutput = null;
+        $lastCmd = '';
+        $validJsonFound = false;
+        foreach ($pythonBins as $bin) {
+            $script = escapeshellarg(__DIR__ . DIRECTORY_SEPARATOR . 'recommendation_algorithm.py');
+            $arg = escapeshellarg($tmp);
+            // Redirect stderr to stdout so we capture errors as well
+            $cmd = "$bin $script $arg 2>&1";
+            $lastCmd = $cmd;
+            // Suppress warnings if shell_exec is disabled; we will log failures below
+            $out = @shell_exec($cmd);
+            if ($out === null || trim($out) === '') continue;
+            // If output decodes as valid JSON, accept it
+            $decoded = json_decode($out, true);
+            if ($decoded !== null && json_last_error() === JSON_ERROR_NONE) {
+                $rawOutput = $out;
+                $validJsonFound = true;
+                break;
+            }
+            // Otherwise record the output and continue trying other binaries (handles MS Store message)
+            // keep last non-empty output just in case
+            $rawOutput = $out;
+        }
+        // remove temp file
         @unlink($tmp);
-        return ['success' => false, 'message' => 'Recommendation script not found'];
-    }
 
-    // Try Python executables in order of preference
-    $pythonBins = ['python3', 'python', 'py'];
-    $rawOutput = null;
-    $errorOutput = null;
-    
-    foreach ($pythonBins as $bin) {
-        // Use absolute paths and proper escaping
-        $script = escapeshellarg($scriptPath);
-        $arg = escapeshellarg($tmp);
-        
-        // Execute with both stdout and stderr capture
-        $descriptors = [
-            0 => ["pipe", "r"],  // stdin
-            1 => ["pipe", "w"],  // stdout
-            2 => ["pipe", "w"]   // stderr
-        ];
-        
-        $process = @proc_open("$bin $script $arg", $descriptors, $pipes);
-        
-        if (is_resource($process)) {
-            fclose($pipes[0]); // Close stdin
-            
-            $stdout = stream_get_contents($pipes[1]);
-            $stderr = stream_get_contents($pipes[2]);
-            
-            fclose($pipes[1]);
-            fclose($pipes[2]);
-            
-            $returnCode = proc_close($process);
-            
-            // Check if we got valid output
-            if ($returnCode === 0 && !empty($stdout)) {
-                $decoded = json_decode($stdout, true);
-                if ($decoded !== null && json_last_error() === JSON_ERROR_NONE) {
-                    $rawOutput = $stdout;
-                    break;
-                }
-            }
-            
-            // Store error for debugging
-            if (!empty($stderr)) {
-                $errorOutput = $stderr;
-            }
+        if (!$rawOutput) {
+            $logMsg = date('Y-m-d H:i:s') . " No output when running recommendation engine. Command tried: $lastCmd\n";
+            file_put_contents(__DIR__ . '/logs/error.log', $logMsg, FILE_APPEND);
+            return ['success' => false, 'message' => 'No recommendations generated (engine failed). Ensure Python is installed and available as "python" or "py" in PATH.'];
         }
-    }
-    
-    // Cleanup temp file
-    @unlink($tmp);
 
-    // Check if we got valid output
-    if (!$rawOutput) {
-        // Log the error
-        $logMsg = date('Y-m-d H:i:s') . " Recommendation engine failed\n";
-        $logMsg .= "Input: " . $inputJson . "\n";
-        if ($errorOutput) {
-            $logMsg .= "Error: " . $errorOutput . "\n";
+        // DEBUG: record raw output from python (base64 to preserve binary/whitespace)
+        @file_put_contents(__DIR__ . '/logs/recommendation_debug.log', date('Y-m-d H:i:s') . " BASE64_OUTPUT: " . base64_encode($rawOutput) . "\n", FILE_APPEND);
+
+        if (!$validJsonFound) {
+            // We received output but it wasn't valid JSON
+            file_put_contents(__DIR__ . '/error.log', date('Y-m-d H:i:s') . " Invalid JSON: $rawOutput\n", FILE_APPEND);
+            return ['success' => false, 'message' => 'Error in algorithm'];
         }
-        @file_put_contents(__DIR__ . '/logs/error.log', $logMsg, FILE_APPEND);
-        
-        return [
-            'success' => false, 
-            'message' => 'Unable to generate recommendations. Please ensure Python is installed.',
-            'debug' => $errorOutput
-        ];
-    }
 
-    // Parse recommendations
-    $recs = json_decode($rawOutput, true);
-    
-    if (!is_array($recs)) {
-        return ['success' => false, 'message' => 'Invalid recommendation format'];
-    }
+        $recs = json_decode($rawOutput, true);
 
-    return ['success' => true, 'recommendations' => $recs];
-}
+        return ['success' => true, 'recommendations' => $recs];
+    }
 
     // ---------- ENROLLMENT (simple logger) ----------
     public function enroll($data) {
