@@ -4,8 +4,3 @@ RewriteEngine On
 # Redirect /index.html → /
 RewriteCond %{THE_REQUEST} \s/+index\.html
 RewriteRule ^index\.html$ / [R=301,L]
-
-# SPA fallback (optional)
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . /index.html [L]
