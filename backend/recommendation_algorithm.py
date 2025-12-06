@@ -18,14 +18,14 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 class CourseRecommendationEngine:
-    def __init__(self, weights: Optional[Dict[str, float]] = None) -> None:
-        self.weights = weights or {
-            "career": 0.30,
-            "learning": 0.10,
-            "workload": 0.10,
-            "difficulty": 0.20,
-            "major": 0.30,
-        }
+        def __init__(self, weights: Optional[Dict[str, float]] = None) -> None:
+            self.weights = weights or {
+                "career": 0.35,
+                "major": 0.25,
+                "difficulty": 0.15,
+                "workload": 0.15,
+                "learning": 0.10,
+            }
         self.course_database = self._load_courses()
         self.major_requirements = self._load_major_requirements()
 
@@ -200,46 +200,24 @@ class CourseRecommendationEngine:
 
     @staticmethod
     def _calculate_workload_compatibility(student_hours: float, course_hours: float) -> float:
-        if student_hours >= course_hours:
-            return 1.0
-        if student_hours >= course_hours * 0.7:
-            return 0.7
-        return 0.4
+        if course_hours <= 0: return 1.0
+        ratio = student_hours / course_hours
+        return min(1.0, ratio)
 
     def _is_major_requirement(self, course_code: str, major: str) -> bool:
         return course_code in self.major_requirements.get(major, [])
 
     def _calculate_difficulty_match(self, gpa, difficulty):
-        # Find optimal difficulty for this GPA
-        if gpa >= 3.8:
-            optimal = 3.5
-        elif gpa >= 3.4:
-            optimal = 3.0
-        elif gpa >= 3.0:
-            optimal = 2.5
-        elif gpa >= 2.6:
-            optimal = 2.0
-        else:
-            optimal = 1.5
+        student_ceiling = (gpa / 4.0) * 5.0 + 0.5 
         
-        # Score based on distance from optimal
-        distance = abs(difficulty - optimal)
-        
-        if distance == 0:
-            return 1.0
-        elif distance <= 0.5:
-            return 0.95
-        elif distance <= 1.0:
-            return 0.85
-        elif distance <= 1.5:
-            return 0.70
-        elif distance <= 2.0:
-            return 0.55
-        else:
-            return 0.40
+        diff_gap = difficulty - student_ceiling
 
-    def generate_recommendations(self, student_data: Dict[str, Any], top_n: int = 15) -> List[Dict[str, Any]]:
-        """Generate top-N course recommendations for a student."""
+        if diff_gap <= 0:
+            return max(0.8, 1.0 - (abs(diff_gap) * 0.1))
+        else:
+            return max(0.0, 1.0 - (diff_gap * 0.5))
+
+def generate_recommendations(self, student_data: Dict[str, Any], top_n: int = 15) -> List[Dict[str, Any]]:
         try:
             gpa = float(student_data.get("gpa", 3.0))
         except (TypeError, ValueError):
@@ -261,20 +239,18 @@ class CourseRecommendationEngine:
             learning_score = self._match_learning_style(learning_style, course.get("learning_style", []))
             workload_score = self._calculate_workload_compatibility(study_hours, float(course.get("workload_hours", 8)))
             difficulty_score = self._calculate_difficulty_match(gpa, int(course.get("difficulty", 3)))
+            is_major_req = self._is_major_requirement(course.get("code", ""), major)
+            major_score = 1.0 if is_major_req else 0.0
 
-            major_req = self._is_major_requirement(course.get("code", ""), major)
-            major_bonus = 1 if major_req else 0.3
-
-            base_score = (
-                career_score * self.weights["career"]
-                + learning_score * self.weights["learning"]
-                + workload_score * self.weights["workload"]
-                + difficulty_score * self.weights["difficulty"]
-                + (1.0 if major_req else 0.5) * self.weights["major"]
+            total_score = (
+                (career_score * self.weights["career"]) +
+                (major_score * self.weights["major"]) +
+                (learning_score * self.weights["learning"]) +
+                (workload_score * self.weights["workload"]) +
+                (difficulty_score * self.weights["difficulty"])
             )
 
-            final_score = base_score * major_bonus
-            confidence = base_score * 100
+            confidence = total_score * 100
 
             reasoning = self._generate_reasoning(course, major, career_score, learning_score, workload_score, difficulty_score)
 
@@ -286,13 +262,16 @@ class CourseRecommendationEngine:
                 "credits": course.get("credits"),
                 "confidence_score": round(confidence, 2),
                 "reasoning": reasoning,
-                "is_major_requirement": major_req,
+                "is_major_requirement": is_major_req,
+                "factors": {
+                    "career": round(career_score, 2),
+                    "workload": round(workload_score, 2),
+                    "difficulty": round(difficulty_score, 2)
+                }
             })
-
         recommendations.sort(key=lambda x: (-x["confidence_score"], x.get("course_code", "")))
-        top = recommendations[:max(1, int(top_n))]
-        logger.info("Generated %d recommendations for major=%s gpa=%.2f", len(top), major, gpa)
-        return top
+        
+        return recommendations[:max(1, int(top_n))]
 
     def _generate_reasoning(self, course: Dict[str, Any], major: str, career_score: float, 
                           learning_score: float, workload_score: float, difficulty_score: float) -> str:
