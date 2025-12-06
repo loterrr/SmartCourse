@@ -509,8 +509,7 @@ input:focus, select:focus {
 @media (max-width: 768px) {
     body {
         padding: 10px;
-        /* FIX: Increased space for bottom fixed navigation bar */
-        padding-bottom: 100px; 
+        padding-bottom: 100px; /* Increased space for bottom nav */
     }
 
     /* Header */
@@ -542,8 +541,7 @@ input:focus, select:focus {
     .main-content {
         flex-direction: column;
         width: 100%;
-        /* FIX: Removed unnecessary padding-bottom, let body handle the space */
-        padding-bottom: 0; 
+        padding-bottom: 20px; /* Extra padding at bottom */
     }
 
     /* Bottom Navigation Bar (Sidebar Transformed) */
@@ -683,8 +681,7 @@ input:focus, select:focus {
     .toast {
         left: 20px;
         right: 20px;
-        /* FIX: Positioned higher than the fixed bottom nav bar (75px height) */
-        bottom: 95px; 
+        bottom: 80px;
         text-align: center;
     }
 }
