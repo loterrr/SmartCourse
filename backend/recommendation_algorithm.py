@@ -19,11 +19,11 @@ logger = logging.getLogger(__name__)
 class CourseRecommendationEngine:
     def __init__(self, weights: Optional[Dict[str, float]] = None) -> None:
         self.weights = weights or {
-            "career": 0.25,
-            "learning": 0.20,
-            "workload": 0.15,
+            "career": 0.30,
+            "learning": 0.10,
+            "workload": 0.10,
             "difficulty": 0.20,
-            "major": 0.20,
+            "major": 0.30,
         }
         self.course_database = self._load_courses()
         self.major_requirements = self._load_major_requirements()
