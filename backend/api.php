@@ -163,7 +163,7 @@ class CourseRecommendationAPI {
 
         if (!$validJsonFound) {
             // We received output but it wasn't valid JSON
-            file_put_contents(__DIR__ . '/logs/error.log', date('Y-m-d H:i:s') . " Invalid JSON: $rawOutput\n", FILE_APPEND);
+            file_put_contents(__DIR__ . '/error.log', date('Y-m-d H:i:s') . " Invalid JSON: $rawOutput\n", FILE_APPEND);
             return ['success' => false, 'message' => 'Error in algorithm'];
         }
 
