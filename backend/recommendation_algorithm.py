@@ -1,28 +1,10 @@
-#!/usr/bin/env python3
-"""Smart Course Recommendation Engine (improved)
-
-This module provides a small, testable recommendation engine suitable for
-integration with a PHP/JS backend. It focuses on content-based signals and
-includes sensible defaults for cold-start users.
-
-Improvements made:
-- Type hints and input validation
-- Configurable weights and `top_n` parameter
-- Loadable course catalog from `backend/courses.json` if present
-- Logging to `backend/logs/recommendation.log`
-- Small, deterministic tie-breaker for stable outputs
-"""
-
 from __future__ import annotations
-
 import json
 import logging
 import sys
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-
-# Setup logging to backend/logs
 LOG_DIR = Path(__file__).resolve().parent / "logs"
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 LOG_FILE = LOG_DIR / "recommendation.log"
@@ -33,10 +15,8 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-
 class CourseRecommendationEngine:
     def __init__(self, weights: Optional[Dict[str, float]] = None) -> None:
-        # Allow overriding weights for experimentation or A/B tests
         self.weights = weights or {
             "career": 0.25,
             "learning": 0.20,
