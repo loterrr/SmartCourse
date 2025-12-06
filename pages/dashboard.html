@@ -95,8 +95,23 @@
                 </div>
 
                 <div id="courses-view" class="content-view">
-                    <div class="recommendations-section" id="coursesContainer">
-                        <p>Loading courses...</p>
+                    <div class="recommendations-section">
+                        <div class="card-header">
+                            <h2>Browse All Available Courses</h2>
+                        </div>
+                
+                        <input type="text" 
+                               class="courseSearchInput" 
+                               placeholder="Search by course code or name..."
+                               id="courseSearchInput" 
+                               style="display: none;">
+                
+                        <div class="course-list" id="coursesList">
+                            <div class="loading">
+                                <div class="spinner"></div>
+                                <p>Loading course catalogue...</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
