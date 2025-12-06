@@ -4,6 +4,7 @@ import logging
 import sys
 from pathlib import Path
 from typing import Any, Dict, List, Optional
+import math
 
 # Setup logging to file only (not stdout)
 LOG_DIR = Path(__file__).resolve().parent / "logs"
@@ -196,10 +197,30 @@ class CourseRecommendationEngine:
         return matches / max(len(student_interests), 1)
 
     @staticmethod
-    def _match_learning_style(student_style: str, course_styles: List[str]) -> float:
-        if not student_style:
-            return 0.5
-        return 1.0 if student_style in course_styles else 0.3
+def _match_learning_style(self, student_style, course_styles):
+    if not student_style:
+        return 0.5
+    
+    # Perfect match
+    if student_style in course_styles:
+        return 1.0
+    
+    # Compatible styles
+    compatible = {
+        "Visual": ["Hands-on", "Analytical"],
+        "Hands-on": ["Visual", "Analytical"],
+        "Analytical": ["Visual", "Hands-on", "Reading"],
+        "Reading": ["Writing", "Discussion", "Analytical"],
+        "Writing": ["Reading", "Discussion"],
+        "Discussion": ["Reading", "Writing"],
+    }
+    
+    if student_style in compatible:
+        for style in course_styles:
+            if style in compatible[student_style]:
+                return 0.75  # Compatible, not perfect
+    
+    return 0.35  # No match
 
     @staticmethod
     def _calculate_workload_compatibility(student_hours: float, course_hours: float) -> float:
@@ -212,17 +233,34 @@ class CourseRecommendationEngine:
     def _is_major_requirement(self, course_code: str, major: str) -> bool:
         return course_code in self.major_requirements.get(major, [])
 
-    def _calculate_difficulty_match(self, gpa: float, difficulty: int) -> float:
-        gpa_score = self._calculate_gpa_score(gpa)
-        if gpa_score >= 0.9 and difficulty <= 4:
-            return 1.0
-        if gpa_score >= 0.75 and difficulty <= 3:
-            return 0.9
-        if gpa_score >= 0.65 and difficulty <= 2:
-            return 0.8
-        if difficulty <= 2:
-            return 0.7
-        return 0.5
+def _calculate_difficulty_match(self, gpa, difficulty):
+    # Find optimal difficulty for this GPA
+    if gpa >= 3.8:
+        optimal = 3.5
+    elif gpa >= 3.4:
+        optimal = 3.0
+    elif gpa >= 3.0:
+        optimal = 2.5
+    elif gpa >= 2.6:
+        optimal = 2.0
+    else:
+        optimal = 1.5
+    
+    # Score based on distance from optimal
+    distance = abs(difficulty - optimal)
+    
+    if distance == 0:
+        return 1.0
+    elif distance <= 0.5:
+        return 0.95
+    elif distance <= 1.0:
+        return 0.85
+    elif distance <= 1.5:
+        return 0.70
+    elif distance <= 2.0:
+        return 0.55
+    else:
+        return 0.40
 
     def generate_recommendations(self, student_data: Dict[str, Any], top_n: int = 15) -> List[Dict[str, Any]]:
         """Generate top-N course recommendations for a student."""
@@ -249,7 +287,7 @@ class CourseRecommendationEngine:
             difficulty_score = self._calculate_difficulty_match(gpa, int(course.get("difficulty", 3)))
 
             major_req = self._is_major_requirement(course.get("code", ""), major)
-            major_bonus = 1.3 if major_req else 1.0
+            major_bonus = 1 if major_req else 3
 
             base_score = (
                 career_score * self.weights["career"]
@@ -260,7 +298,7 @@ class CourseRecommendationEngine:
             )
 
             final_score = base_score * major_bonus
-            confidence = max(0.0, min(final_score * 100.0, 100.0))
+            confidence = base_score * 100
 
             reasoning = self._generate_reasoning(course, major, career_score, learning_score, workload_score, difficulty_score)
 
