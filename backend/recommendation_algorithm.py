@@ -134,7 +134,7 @@ class CourseRecommendationEngine:
             return 0.7
         return 0.5
 
-    def generate_recommendations(self, student_data: Dict[str, Any], top_n: int = 8) -> List[Dict[str, Any]]:
+    def generate_recommendations(self, student_data: Dict[str, Any], top_n: int = 15) -> List[Dict[str, Any]]:
         """Generate top-N course recommendations for a student."""
         try:
             gpa = float(student_data.get("gpa", 3.0))
