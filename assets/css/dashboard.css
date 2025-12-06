@@ -24,10 +24,15 @@ body {
     margin-bottom: 30px;
 }
 
-.logo { 
-    font-size: 28px; 
-    font-weight: 600; 
-    color: #6B8FDB; 
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 50px; 
+    width: auto; 
+    object-fit: contain;
 }
 
 .user-section { 
@@ -529,9 +534,9 @@ input:focus, select:focus {
         padding: 0 5px;
     }
 
-    .logo {
-        font-size: 22px;
-    }
+   .logo img {
+           height: 35px; /* Smaller logo for mobile */
+       }
 
     /* Hide User Name/Section on mobile to save space */
     .user-section {
