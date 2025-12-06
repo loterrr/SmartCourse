@@ -1,0 +1,18 @@
+Options -Indexes
+RewriteEngine On
+
+# Redirect /index.html → /
+RewriteCond %{THE_REQUEST} \s/+index\.html
+RewriteRule ^index\.html$ / [R=301,L]
+
+# Pretty URL for /dashboard  → /pages/dashboard.html
+RewriteRule ^dashboard$ /pages/dashboard.html [L]
+
+# Prevent showing dashboard.html directly
+RewriteCond %{THE_REQUEST} \s/+pages/dashboard\.html
+RewriteRule ^pages/dashboard\.html$ /dashboard [R=301,L]
+
+# SPA fallback (optional)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.html [L]
