@@ -101,22 +101,15 @@ def _load_courses(self) -> List[Dict[str, Any]]:
             {"id": 37, "code": "INT027", "name": "Hospitality", "department": "Business", "credits": 3, "difficulty": 2, "prerequisites": [], "career_relevance": ["General"], "learning_style": ["Reading", "Visual"], "workload_hours": 6},
         ]
 
-    def _load_major_requirements(self) -> Dict[str, List[str]]:
-        """
-        Maps majors to key course requirements. 
-        Modified to include both Core and Interest-based options from the SQL dump.
-        """
-        return {
-            "Technology": ["CS101", "INT008", "INT009", "INT010", "INT011", "INT012", "INT013"],
-            "Social Science": ["PSYCH101", "HIST101", "ECON101", "INT021", "INT022"],
-            "Engineering": ["MATH151", "PHYS101", "CHEM101", "INT014", "INT015", "INT016"],
-            "Creative": ["INT001", "INT002", "INT003", "INT004", "INT005", "INT006", "INT007"],
-            "Art": ["ART101", "INT001", "INT002"],
-            "Science": ["BIO101", "CHEM101", "PHYS101", "INT017", "INT018", "INT019", "INT020"],
-            "Education": ["INT023", "PSYCH101", "ENG101"],
-            "Business": ["ECON101", "INT024", "INT025", "INT026", "INT027"],
-            "Undecided": ["ENG101", "MATH151", "CS101", "HIST101"],
-        }
+    def _load_major_requirements(self) -> Dict[str, List[str]]:
+        return {
+            "Computer Science": ["CS101", "MATH151", "ENG101"],
+            "Engineering": ["MATH151", "PHYS101", "CHEM101", "ENG101"],
+            "Biology": ["BIO101", "CHEM101", "MATH151", "ENG101"],
+            "Business": ["ECON101", "MATH151", "ENG101"],
+            "Psychology": ["PSYCH101", "BIO101", "ENG101"],
+            "Undecided": ["ENG101", "MATH151"],
+        }
 
     @staticmethod
     def _calculate_gpa_score(gpa: float) -> float:
