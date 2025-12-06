@@ -63,7 +63,7 @@ def _load_courses(self) -> List[Dict[str, Any]]:
         return [
 
             {"id": 1, "code": "CS101", "name": "Introduction to Computer Science", "department": "Technology", "credits": 3, "difficulty": 2, "prerequisites": [], "career_relevance": ["Software Engineering", "Data Science", "IT"], "learning_style": ["Visual", "Hands-on"], "workload_hours": 8},
-            {"id": 2, "code": "MATH151", "name": "Calculus I", "department": "Enhgineering", "credits": 4, "difficulty": 4, "prerequisites": [], "career_relevance": ["Engineering", "Data Science", "Finance"], "learning_style": ["Analytical", "Practice-based"], "workload_hours": 12},
+            {"id": 2, "code": "MATH151", "name": "Calculus I", "department": "Engineering", "credits": 4, "difficulty": 4, "prerequisites": [], "career_relevance": ["Engineering", "Data Science", "Finance"], "learning_style": ["Analytical", "Practice-based"], "workload_hours": 12},
             {"id": 3, "code": "ENG101", "name": "English Composition", "department": "Education", "credits": 3, "difficulty": 2, "prerequisites": [], "career_relevance": ["All"], "learning_style": ["Reading", "Writing"], "workload_hours": 6},
             {"id": 4, "code": "PHYS101", "name": "General Physics I", "department": "Engineering", "credits": 4, "difficulty": 4, "prerequisites": ["MATH151"], "career_relevance": ["Engineering", "Science", "Medical"], "learning_style": ["Visual", "Analytical"], "workload_hours": 10},
             {"id": 5, "code": "BIO101", "name": "Introduction to Biology", "department": "Science", "credits": 4, "difficulty": 3, "prerequisites": [], "career_relevance": ["Medical", "Research", "Healthcare"], "learning_style": ["Visual", "Reading"], "workload_hours": 9},
