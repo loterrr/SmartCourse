@@ -82,97 +82,85 @@ class CourseRecommendationEngine:
             {"id": 37, "code": "INT027", "name": "Hospitality", "department": "Business", "credits": 3, "difficulty": 2, "prerequisites": [], "career_relevance": ["Hospitality", "Tourism"], "learning_style": ["Hands-on", "Visual"], "workload_hours": 6}
         ]
 
-    def _load_major_requirements(self) -> Dict[str, List[str]]:
-        return {
-            "Computer Science": [
-                "CS101",
-                "MATH151",
-                "ENG101",
-                "INT018",
-                "INT019",
-                "INT020",
-                "INT021",
-                "INT022",
-                "INT023",
-            ],
-            "Engineering": [
-                "MATH151",
-                "PHYS101",
-                "CHEM101",
-                "ENG101",
-                "INT024",
-                "INT025",
-                "INT026",
-            ],
-            "Biology": [
-                "BIO101",
-                "CHEM101",
-                "MATH151",
-                "ENG101",
-                "INT028",
-                "INT030",
-            ],
-            "Business": [
-                "ECON101",
-                "MATH151",
-                "ENG101",
-                "INT024",
-                "INT025",
-                "INT026",
-                "INT027",
-            ],
-            "Psychology": [
-                "PSYCH101",
-                "BIO101",
-                "ENG101",
-                "INT021",
-            ],
-            "Creative Arts": [
-                "ART101",
-                "INT001",
-                "INT002",
-                "INT003",
-                "INT004",
-                "INT005",
-                "INT006",
-                "INT007",
-            ],
-            "Technology": [
-                "CS101",
-                "INT018",
-                "INT019",
-                "INT020",
-                "INT021",
-                "INT022",
-                "INT023",
-            ],
-            "Science": [
-                "PHYS101",
-                "CHEM101",
-                "BIO101",
-                "INT027",
-                "INT028",
-                "INT029",
-                "INT030",
-            ],
-            "Social Science": [
-                "PSYCH101",
-                "HIST101",
-                "INT021",
-                "INT022",
-            ],
-            "Education": [
-                "ENG101",
-                "INT023",
-                "PSYCH101",
-            ],
-            "Undecided": [
-                "ENG101",
-                "MATH151",
-                "PSYCH101",
-                "ART101",
-            ],
-        }
+        def _load_major_requirements(self) -> Dict[str, List[str]]:
+            return {
+                "Technology": [
+                    "CS101",
+                    "MATH151",
+                    "ENG101",
+                    "INT008",
+                    "INT009",
+                    "INT010",
+                    "INT011",
+                    "INT012",
+                    "INT013",
+                ],
+        
+                "Engineering": [
+                    "MATH151",
+                    "PHYS101",
+                    "CHEM101",
+                    "ENG101",
+                    "INT003",
+                    "INT024",
+                    "INT025",
+                    "INT026",
+                ],
+        
+                "Science": [
+                    "BIO101",
+                    "CHEM101",
+                    "MATH151",
+                    "ENG101",
+                    "INT018",
+                    "INT020",
+                    "INT017",
+                    "INT019",
+                    "PHYS101",
+                ],
+        
+                "Social Science": [
+                    "PSYCH101",
+                    "HIST101",
+                    "INT021",
+                    "INT022",
+                    "PHYS101", 
+                ],
+        
+                "Business": [
+                    "ECON101",
+                    "MATH151",
+                    "ENG101",
+                    "INT024",
+                    "INT025",
+                    "INT026",
+                    "INT027",
+                ],
+        
+                "Creative Arts": [
+                    "ART101",
+                    "INT001",
+                    "INT002",
+                    "INT004",
+                    "INT005",
+                    "INT006",
+                    "INT007",
+                ],
+        
+                "Education": [
+                    "ENG101",
+                    "PSYCH101",
+                    "INT023",
+                ],
+        
+                "Undecided": [
+                    "ENG101",
+                    "MATH151",
+                    "PSYCH101",
+                    "ART101",
+                ],
+            }
+
 
     @staticmethod
     def _calculate_gpa_score(gpa: float) -> float:
