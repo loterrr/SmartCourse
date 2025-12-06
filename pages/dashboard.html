@@ -8,8 +8,13 @@
     <link rel="stylesheet" href="../assets/fontawesome/css/all.css">
 </head>
 <body>
-
-
+<script>
+    // Block access if not logged in
+    const id = localStorage.getItem('student_id');
+    if (!id) {
+        window.location.href = "./index.html"; // or login page path
+    }
+</script>
 
     <div class="header">
         <div class="logo">SmartCourse</div>
