@@ -18,14 +18,15 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 class CourseRecommendationEngine:
-        def __init__(self, weights: Optional[Dict[str, float]] = None) -> None:
-            self.weights = weights or {
-                "career": 0.35,
-                "major": 0.25,
-                "difficulty": 0.15,
-                "workload": 0.15,
-                "learning": 0.10,
-            }
+    def __init__(self, weights: Optional[Dict[str, float]] = None) -> None:
+        self.weights = weights or {
+            "career": 0.35,
+            "major": 0.25,
+            "difficulty": 0.15,
+            "workload": 0.15,
+            "learning": 0.10,
+        }
+        # FIX: These are now properly indented inside __init__
         self.course_database = self._load_courses()
         self.major_requirements = self._load_major_requirements()
 
@@ -82,85 +83,17 @@ class CourseRecommendationEngine:
             {"id": 37, "code": "INT027", "name": "Hospitality", "department": "Business", "credits": 3, "difficulty": 2, "prerequisites": [], "career_relevance": ["Hospitality", "Tourism"], "learning_style": ["Hands-on", "Visual"], "workload_hours": 6}
         ]
 
-        def _load_major_requirements(self) -> Dict[str, List[str]]:
-            return {
-                "Technology": [
-                    "CS101",
-                    "MATH151",
-                    "ENG101",
-                    "INT008",
-                    "INT009",
-                    "INT010",
-                    "INT011",
-                    "INT012",
-                    "INT013",
-                ],
-        
-                "Engineering": [
-                    "MATH151",
-                    "PHYS101",
-                    "CHEM101",
-                    "ENG101",
-                    "INT003",
-                    "INT024",
-                    "INT025",
-                    "INT026",
-                ],
-        
-                "Science": [
-                    "BIO101",
-                    "CHEM101",
-                    "MATH151",
-                    "ENG101",
-                    "INT018",
-                    "INT020",
-                    "INT017",
-                    "INT019",
-                    "PHYS101",
-                ],
-        
-                "Social Science": [
-                    "PSYCH101",
-                    "HIST101",
-                    "INT021",
-                    "INT022",
-                    "PHYS101", 
-                ],
-        
-                "Business": [
-                    "ECON101",
-                    "MATH151",
-                    "ENG101",
-                    "INT024",
-                    "INT025",
-                    "INT026",
-                    "INT027",
-                ],
-        
-                "Creative Arts": [
-                    "ART101",
-                    "INT001",
-                    "INT002",
-                    "INT004",
-                    "INT005",
-                    "INT006",
-                    "INT007",
-                ],
-        
-                "Education": [
-                    "ENG101",
-                    "PSYCH101",
-                    "INT023",
-                ],
-        
-                "Undecided": [
-                    "ENG101",
-                    "MATH151",
-                    "PSYCH101",
-                    "ART101",
-                ],
-            }
-
+    def _load_major_requirements(self) -> Dict[str, List[str]]:
+        return {
+            "Technology": ["CS101", "MATH151", "ENG101", "INT008", "INT009", "INT010", "INT011", "INT012", "INT013"],
+            "Engineering": ["MATH151", "PHYS101", "CHEM101", "ENG101", "INT003", "INT024", "INT025", "INT026"],
+            "Science": ["BIO101", "CHEM101", "MATH151", "ENG101", "INT018", "INT020", "INT017", "INT019", "PHYS101"],
+            "Social Science": ["PSYCH101", "HIST101", "INT021", "INT022", "PHYS101"],
+            "Business": ["ECON101", "MATH151", "ENG101", "INT024", "INT025", "INT026", "INT027"],
+            "Creative Arts": ["ART101", "INT001", "INT002", "INT004", "INT005", "INT006", "INT007"],
+            "Education": ["ENG101", "PSYCH101", "INT023"],
+            "Undecided": ["ENG101", "MATH151", "PSYCH101", "ART101"],
+        }
 
     @staticmethod
     def _calculate_gpa_score(gpa: float) -> float:
@@ -177,11 +110,9 @@ class CourseRecommendationEngine:
         if not student_style:
             return 0.5
         
-        # Perfect match
         if student_style in course_styles:
             return 1.0
         
-        # Compatible styles
         compatible = {
             "Visual": ["Hands-on", "Analytical"],
             "Hands-on": ["Visual", "Analytical"],
@@ -209,15 +140,14 @@ class CourseRecommendationEngine:
 
     def _calculate_difficulty_match(self, gpa, difficulty):
         student_ceiling = (gpa / 4.0) * 5.0 + 0.5 
-        
         diff_gap = difficulty - student_ceiling
-
         if diff_gap <= 0:
             return max(0.8, 1.0 - (abs(diff_gap) * 0.1))
         else:
             return max(0.0, 1.0 - (diff_gap * 0.5))
 
-def generate_recommendations(self, student_data: Dict[str, Any], top_n: int = 15) -> List[Dict[str, Any]]:
+    # FIX: This method is now properly indented inside the Class
+    def generate_recommendations(self, student_data: Dict[str, Any], top_n: int = 15) -> List[Dict[str, Any]]:
         try:
             gpa = float(student_data.get("gpa", 3.0))
         except (TypeError, ValueError):
