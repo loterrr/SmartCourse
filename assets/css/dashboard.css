@@ -71,9 +71,10 @@ body {
     gap: 20px; 
     max-width: 1600px; 
     margin: 0 auto; 
+    position: relative; /* Needed for sticky sidebar context */
 }
 
-/* Burger Menu - Hidden on Desktop */
+/* Burger Menu - We keep this hidden as we are using Bottom Nav */
 .burger-menu {
     display: none;
 }
@@ -111,6 +112,7 @@ body {
     justify-content: center;
     cursor: pointer; 
     transition: background 0.3s;
+    text-decoration: none; /* In case you use <a> tags */
 }
 
 .sidebar-icon.active { 
@@ -515,280 +517,146 @@ input:focus, select:focus {
 }
 
 @media (max-width: 768px) {
+    /* 1. Add bottom padding to body so content isn't hidden behind the bar */
     body {
         padding: 10px;
-        padding-bottom: 20px;
+        padding-bottom: 90px;
     }
 
-    /* Header */
+    /* 2. Header Adjustments */
     .header {
         margin-bottom: 20px;
         padding: 0 5px;
-        position: relative;
     }
 
     .logo {
         font-size: 22px;
     }
 
-    #userName {
-        display: none; /* Hide name on mobile */
+    /* Hide User Name/Section on mobile to save space */
+    .user-section {
+        display: none;
     }
 
-    .logout-btn {
-        padding: 8px 16px;
-        font-size: 12px;
-    }
-
-    /* Burger Menu Button */
+    /* 3. Hide Burger Menu (We are using Bottom Nav instead) */
     .burger-menu {
-        display: block;
+        display: none;
+    }
+
+    /* 4. Transform Sidebar to Fixed Bottom Nav */
+    .sidebar {
         position: fixed;
-        top: 20px;
-        left: 20px;
-        width: 50px;
-        height: 50px;
-        background: #6B8FEC;
-        border-radius: 12px;
-        cursor: pointer;
-        z-index: 10000;
-        box-shadow: 0 4px 12px rgba(107, 143, 236, 0.3);
-        transition: all 0.3s ease;
+        top: auto;      /* Reset top */
+        bottom: 0;      /* Stick to bottom */
+        left: 0;
+        
+        width: 100%;
+        height: 70px;   /* Fixed height */
+        margin: 0;
+        padding: 0;
+        
+        flex-direction: row;        /* Horizontal icons */
+        justify-content: space-around; /* Evenly spaced */
+        align-items: center;
+        gap: 0;
+
+        background: #ffffff;        /* White background */
+        border-radius: 20px 20px 0 0; /* Rounded top corners */
+        border-top: 1px solid #e0e0e0;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+        z-index: 9999;
     }
 
-    .burger-menu:active {
-        transform: scale(0.95);
+    /* 5. Mobile Sidebar Icons */
+    .sidebar-icon {
+        width: auto;
+        height: 100%;
+        flex: 1; /* Stretch to fill width */
+        background: transparent;
+        color: #b0c2db; /* Gray-blue inactive */
+        border-radius: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        padding: 0;
+        position: relative;
     }
 
-    .burger-menu span {
-        display: block;
-        width: 25px;
-        height: 3px;
-        background: white;
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        transition: all 0.3s ease;
-        border-radius: 2px;
+    .sidebar-icon i {
+        font-size: 24px;
     }
 
-    .burger-menu span:nth-child(1) {
-        top: 15px;
+    /* Active State for Mobile (Top Border Indicator) */
+    .sidebar-icon.active {
+        background: transparent;
+        color: #6B8FEC;
+        border-top: 3px solid #6B8FEC;
+    }
+    
+    .sidebar-icon:hover {
+        background: #f9f9f9;
     }
 
-    .burger-menu span:nth-child(2) {
-        top: 24px;
-    }
-
-    .burger-menu span:nth-child(3) {
-        top: 33px;
-    }
-
-    .burger-menu.active span:nth-child(1) {
-        top: 24px;
-        transform: translateX(-50%) rotate(45deg);
-    }
-
-    .burger-menu.active span:nth-child(2) {
-        opacity: 0;
-    }
-
-    .burger-menu.active span:nth-child(3) {
-        top: 24px;
-        transform: translateX(-50%) rotate(-45deg);
-    }
-
-    /* Container & Layout */
+    /* 6. Layout Adjustments */
     .container {
         display: block;
         gap: 15px;
-        margin-bottom: 20px;
     }
 
     .main-content {
         flex-direction: column;
         width: 100%;
-        padding-bottom: 20px;
     }
 
-    /* Sidebar as Slide-out Menu */
-    .sidebar {
-        position: fixed;
-        top: 0;
-        left: -280px;
-        width: 280px;
-        height: 100vh;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: stretch;
-        background: #6B8FEC;
-        border-radius: 0;
-        margin: 0;
-        padding: 80px 20px 20px 20px;
-        z-index: 9999;
-        box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
-        gap: 0;
-        transition: left 0.3s ease;
-        overflow-y: auto;
-    }
-
-    .sidebar.active {
-        left: 0;
-    }
-
-    .sidebar-icon {
-        width: 100%;
-        height: 60px;
-        background: transparent;
-        border-radius: 12px;
-        flex-shrink: 0;
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        padding: 0 20px;
-        margin-bottom: 10px;
-        transition: all 0.3s ease;
-    }
-
-    .sidebar-icon i {
-        font-size: 24px;
-        margin-right: 15px;
-    }
-
-    .sidebar-icon::after {
-        content: attr(title);
-        color: white;
-        font-size: 16px;
-        font-weight: 500;
-    }
-
-    .sidebar-icon.active {
-        background: rgba(33, 38, 186, 0.6);
-    }
-
-    .sidebar-icon:active {
-        transform: scale(0.98);
-    }
-
-    /* Overlay */
-    .sidebar-overlay {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        z-index: 9998;
-        transition: opacity 0.3s ease;
-    }
-
-    .sidebar-overlay.active {
-        display: block;
-    }
-
-    /* Profile Card */
+    /* 7. Profile Card Mobile */
     .profile-card {
         width: 100%;
         margin-bottom: 20px;
         padding: 20px;
+        display: flex;
+        align-items: center;
+        text-align: left;
     }
 
     .profile-avatar {
-        width: 80px;
-        height: 80px;
-        font-size: 30px;
+        width: 70px;
+        height: 70px;
+        font-size: 28px;
+        margin: 0 20px 0 0; /* Margin right */
+    }
+    
+    .profile-major {
+        margin-bottom: 5px;
     }
 
-    /* Content & Cards */
+    .profile-stats {
+        display: none; /* Hide stats on mobile profile card to save space */
+    }
+
+    /* 8. Generic Mobile Adjustments */
     .recommendations-section, 
     .simple-section,
     #profileSection {
         padding: 15px;
-        border-width: 2px;
     }
 
-    .card-header {
+    .form-row {
         flex-direction: column;
-        align-items: flex-start !important;
-        gap: 10px;
-        margin-bottom: 15px;
-    }
-
-    .card-header h2 {
-        font-size: 20px;
-        margin: 0;
-    }
-
-    .card-header .btn-primary {
-        width: 100%;
-        padding: 8px;
-    }
-
-    /* Tabs */
-    .tabs {
-        overflow-x: auto;
-        white-space: nowrap;
-        padding-bottom: 5px;
-        -ms-overflow-style: none;
-        scrollbar-width: none;
+        gap: 15px;
     }
     
-    .tabs::-webkit-scrollbar {
-        display: none;
-    }
-
-    .tab {
-        padding: 8px 15px;
-        font-size: 13px;
-        flex-shrink: 0;
-    }
-
-    /* Recommendation Items */
-    .recommendation-item {
-        padding: 15px;
-    }
-
     .rec-header {
         flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-    }
-
-    .course-meta {
-        flex-wrap: wrap;
         gap: 10px;
     }
-
+    
     .action-buttons {
         flex-direction: column;
         width: 100%;
     }
-
+    
     .action-buttons button {
         width: 100%;
-        text-align: center;
-    }
-
-    /* Forms */
-    .form-row {
-        flex-direction: column;
-        gap: 0;
-    }
-
-    .form-group {
-        margin-bottom: 15px;
-    }
-
-    #profileForm button {
-        flex: 1;
-    }
-    
-    /* Toast */
-    .toast {
-        left: 20px;
-        right: 20px;
-        bottom: 80px;
-        text-align: center;
     }
 }
