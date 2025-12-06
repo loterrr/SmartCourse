@@ -107,15 +107,15 @@ def _load_courses(self) -> List[Dict[str, Any]]:
         Modified to include both Core and Interest-based options from the SQL dump.
         """
         return {
-            "Computer Science": ["CS101", "MATH151", "INT008", "INT010"],
-            "Technology": ["INT008", "INT009", "INT010", "INT011", "INT012"],
-            "Engineering": ["MATH151", "PHYS101", "CHEM101", "INT014", "INT015"],
-            "Biology": ["BIO101", "CHEM101", "MATH151", "INT018"],
-            "Business": ["ECON101", "MATH151", "INT024", "INT025"],
-            "Creative Arts": ["ART101", "INT001", "INT002", "INT006"],
-            "Psychology": ["PSYCH101", "BIO101", "INT021"],
-            "Social Science": ["PSYCH101", "HIST101", "INT021", "INT022"],
-            "Undecided": ["ENG101", "MATH151", "INT001"],
+            "Technology": ["CS101", "INT008", "INT009", "INT010", "INT011", "INT012", "INT013"],
+            "Social Science": ["PSYCH101", "HIST101", "ECON101", "INT021", "INT022"],
+            "Engineering": ["MATH151", "PHYS101", "CHEM101", "INT014", "INT015", "INT016"],
+            "Creative": ["INT001", "INT002", "INT003", "INT004", "INT005", "INT006", "INT007"],
+            "Art": ["ART101", "INT001", "INT002"],
+            "Science": ["BIO101", "CHEM101", "PHYS101", "INT017", "INT018", "INT019", "INT020"],
+            "Education": ["INT023", "PSYCH101", "ENG101"],
+            "Business": ["ECON101", "INT024", "INT025", "INT026", "INT027"],
+            "Undecided": ["ENG101", "MATH151", "CS101", "HIST101"],
         }
 
     @staticmethod
