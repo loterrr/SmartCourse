@@ -306,17 +306,18 @@ function switchTab(e, filter) {
     }
 }
 
-// ===== COURSES =====
+// ===== COURSES  =====
 async function loadCoursesTab() {
-    // Find the container in the courses view
+    // Find the main section container within the courses view
     const coursesView = document.getElementById("courses-view");
     if (!coursesView) return;
     
-    const container = coursesView.querySelector(".recommendations-section") || 
-                     document.getElementById("coursesContainer");
+    // The content will be rendered inside the .recommendations-section
+    const container = coursesView.querySelector(".recommendations-section");
     
     if (!container) return;
 
+    // Display loading state
     container.innerHTML = `
         <div class="loading" style="text-align:center; padding:40px;">
             <div class="spinner" style="margin:0 auto 20px;"></div>
@@ -328,16 +329,18 @@ async function loadCoursesTab() {
         const data = await res.json();
         
         if (!data) throw new Error('No data received');
-
+        
+        // 1. Re-insert the proper HTML structure with the search bar and the course list container.
         container.innerHTML = `
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <div class="card-header">
                 <h2 style="margin:0">Browse All Courses</h2>
-                <input id="courseSearch" placeholder="Search courses..." 
-                       style="padding:10px 15px; border-radius:8px; border:1px solid #e5e7eb; width:300px;">
             </div>
-            <div id="coursesList"></div>
+            <input id="courseSearchInput" placeholder="Search courses..." class="courseSearchInput">
+            
+            <div id="coursesList" class="course-list"></div>
         `;
 
+        const searchInput = document.getElementById("courseSearchInput"); // Changed ID to match HTML standard
         const listEl = document.getElementById("coursesList");
 
         function renderCourses(filter = "") {
@@ -353,6 +356,7 @@ async function loadCoursesTab() {
                 return;
             }
 
+            // Use the standard recommendation-item structure for display consistency
             listEl.innerHTML = filtered.map(c => `
                 <div class="recommendation-item">
                     <div class="rec-header">
@@ -373,11 +377,12 @@ async function loadCoursesTab() {
             `).join('');
         }
 
-        const searchInput = document.getElementById("courseSearch");
         if (searchInput) {
+            // 2. Set up event listener for the search bar
             searchInput.addEventListener("input", e => renderCourses(e.target.value));
         }
 
+        // 3. Initial rendering of all courses
         renderCourses();
 
     } catch (err) {
