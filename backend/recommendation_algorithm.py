@@ -82,17 +82,107 @@ class CourseRecommendationEngine:
 ]
 
     def _load_major_requirements(self) -> Dict[str, List[str]]:
-        return {
-            "Technology": ["CS101", "MATH151", "ENG101"],
-            "Engineering": ["MATH151", "PHYS101", "CHEM101", "ENG101"],
-            "Science": ["BIO101", "CHEM101", "MATH151", "ENG101"],
-            "Business": ["ECON101", "MATH151", "ENG101"],
-            "Social Science": ["PSYCH101", "HIST101", "ENG101"],
-            "Education": ["PSYCH101", "ENG101"],
-            "Art": ["ART101", "ENG101"],
-            "Creative": ["ART101", "ENG101"],
-            "Undecided": ["ENG101", "MATH151"],
-        }
+    return {
+        "Computer Science": [
+            "CS101",
+            "MATH151",
+            "ENG101",
+            "INT018",
+            "INT019",
+            "INT020",
+            "INT021",
+            "INT022",
+            "INT023",
+        ],
+
+        "Engineering": [
+            "MATH151",
+            "PHYS101",
+            "CHEM101",
+            "ENG101",
+            "INT024",   # Construction
+            "INT025",   # Machinery & Mechanics
+            "INT026",   # Power Systems
+        ],
+
+        "Biology": [
+            "BIO101",
+            "CHEM101",
+            "MATH151",
+            "ENG101",
+            "INT028",   # Biology (interest)
+            "INT030",   # Scientific Research
+        ],
+
+        "Business": [
+            "ECON101",
+            "MATH151",
+            "ENG101",
+            "INT024",   # Business
+            "INT025",   # Finance
+            "INT026",   # Leadership
+            "INT027",   # Hospitality
+        ],
+
+        "Psychology": [
+            "PSYCH101",
+            "BIO101",
+            "ENG101",
+            "INT021",   # Human Behavior
+        ],
+
+        "Creative Arts": [
+            "ART101",
+            "INT001",   # Drawing
+            "INT002",   # Visual Arts
+            "INT003",   # Designing Buildings
+            "INT004",   # Interior Design
+            "INT005",   # Product Design
+            "INT006",   # Animation
+            "INT007",   # Storyboarding
+        ],
+
+        "Technology": [
+            "CS101",
+            "INT018",
+            "INT019",
+            "INT020",
+            "INT021",
+            "INT022",
+            "INT023",
+        ],
+
+        "Science": [
+            "PHYS101",
+            "CHEM101",
+            "BIO101",
+            "INT027",   # Chemistry & Materials
+            "INT028",   # Biology
+            "INT029",   # Physics
+            "INT030",   # Scientific Research
+        ],
+
+        "Social Science": [
+            "PSYCH101",
+            "HIST101",
+            "INT021",   # Human Behavior
+            "INT022",   # Politics & Law
+        ],
+
+        "Education": [
+            "ENG101",
+            "INT023",   # Teaching
+            "PSYCH101",
+        ],
+
+        "Undecided": [
+            "ENG101",
+            "MATH151",
+            "PSYCH101",
+            "ART101",
+        ],
+    }
+
 
     @staticmethod
     def _calculate_gpa_score(gpa: float) -> float:
