@@ -1,6 +1,0 @@
-Options -Indexes
-RewriteEngine On
-
-# Redirect /index.html → /
-RewriteCond %{THE_REQUEST} \s/+index\.html
-RewriteRule ^index\.html$ / [R=301,L]
