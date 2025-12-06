@@ -1,12 +1,8 @@
-/* =========================================
-   RESET & BASIC SETUP
-   ========================================= */
 * { 
     margin: 0; 
     padding: 0; 
     box-sizing: border-box; 
 }
-
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
@@ -14,9 +10,6 @@ body {
     min-height: 100vh;
 }
 
-/* =========================================
-   HEADER
-   ========================================= */
 .header {
     display: flex;
     justify-content: space-between;
@@ -63,9 +56,6 @@ body {
     background: #5a7bc9; 
 }
 
-/* =========================================
-   LAYOUT CONTAINER
-   ========================================= */
 .container { 
     display: flex; 
     gap: 20px; 
@@ -73,9 +63,6 @@ body {
     margin: 0 auto; 
 }
 
-/* =========================================
-   SIDEBAR (DESKTOP DEFAULT)
-   ========================================= */
 .sidebar {
     width: 100px; 
     background: #6B8FEC; 
@@ -116,9 +103,6 @@ body {
     font-size: 40px; 
 }
 
-/* =========================================
-   MAIN CONTENT AREA
-   ========================================= */
 .main-content { 
     display: flex; 
     gap: 20px; 
@@ -140,9 +124,6 @@ body {
     display: block; 
 }
 
-/* =========================================
-   PROFILE CARD
-   ========================================= */
 .profile-card {
     background: white; 
     border: 3px solid #6B8FDB; 
@@ -204,9 +185,6 @@ body {
     color: #555; 
 }
 
-/* =========================================
-   SECTIONS & CARDS
-   ========================================= */
 .recommendations-section,
 .simple-section {
     background: white; 
@@ -219,9 +197,6 @@ body {
     margin-bottom: 20px;
 }
 
-/* =========================================
-   TABS
-   ========================================= */
 .tabs { 
     display: flex; 
     gap: 10px; 
@@ -251,9 +226,6 @@ body {
     background: #2126ba;
 }
 
-/* =========================================
-   RECOMMENDATION ITEMS
-   ========================================= */
 .course-list { 
     display: flex; 
     flex-direction: column; 
@@ -324,9 +296,6 @@ body {
     gap: 10px;
 }
 
-/* =========================================
-   FORMS
-   ========================================= */
 #profileSection { 
     background: white; 
     border: 3px solid #6B8FDB; 
@@ -369,9 +338,6 @@ input:focus, select:focus {
     border-color: #6B8FDB;
 }
 
-/* =========================================
-   BUTTONS
-   ========================================= */
 .btn-primary {
     background: #6B8FDB; 
     color: white; 
@@ -403,9 +369,6 @@ input:focus, select:focus {
     background: #b0c2db;
 }
 
-/* =========================================
-   UTILITIES & LOADERS
-   ========================================= */
 .courseSearchInput {
     width: 100%;
     padding: 12px;
@@ -444,9 +407,6 @@ input:focus, select:focus {
     100% { transform: rotate(360deg); }
 }
 
-/* =========================================
-   TOAST NOTIFICATIONS
-   ========================================= */
 .toast {
     position: fixed;
     bottom: 30px;
@@ -479,9 +439,6 @@ input:focus, select:focus {
     }
 }
 
-/* =========================================
-   MEDIA QUERIES (MOBILE RESPONSIVE)
-   ========================================= */
 @media (max-width: 1200px) {
     .container {
         flex-direction: column;
@@ -509,10 +466,9 @@ input:focus, select:focus {
 @media (max-width: 768px) {
     body {
         padding: 10px;
-        padding-bottom: 100px; /* Increased space for bottom nav */
+        padding-bottom: 100px;
     }
 
-    /* Header */
     .header {
         margin-bottom: 20px;
         padding: 0 5px;
@@ -523,7 +479,7 @@ input:focus, select:focus {
     }
 
     #userName {
-        display: none; /* Hide name on mobile */
+        display: none;
     }
 
     .logout-btn {
@@ -531,20 +487,18 @@ input:focus, select:focus {
         font-size: 12px;
     }
 
-    /* Container & Layout */
     .container {
         display: block;
         gap: 15px;
-        margin-bottom: 20px; /* Extra margin at bottom */
+        margin-bottom: 20px;
     }
 
     .main-content {
         flex-direction: column;
         width: 100%;
-        padding-bottom: 20px; /* Extra padding at bottom */
+        padding-bottom: 20px;
     }
 
-    /* Bottom Navigation Bar (Sidebar Transformed) */
     .sidebar {
         position: fixed;
         bottom: 0;
@@ -580,7 +534,6 @@ input:focus, select:focus {
         background: rgba(33, 38, 186, 0.6);
     }
 
-    /* Profile Card */
     .profile-card {
         width: 100%;
         margin-bottom: 20px;
@@ -593,7 +546,6 @@ input:focus, select:focus {
         font-size: 30px;
     }
 
-    /* Content & Cards */
     .recommendations-section, 
     .simple-section,
     #profileSection {
@@ -618,7 +570,6 @@ input:focus, select:focus {
         padding: 8px;
     }
 
-    /* Tabs */
     .tabs {
         overflow-x: auto;
         white-space: nowrap;
@@ -637,7 +588,6 @@ input:focus, select:focus {
         flex-shrink: 0;
     }
 
-    /* Recommendation Items */
     .recommendation-item {
         padding: 15px;
     }
@@ -663,7 +613,6 @@ input:focus, select:focus {
         text-align: center;
     }
 
-    /* Forms */
     .form-row {
         flex-direction: column;
         gap: 0;
@@ -677,7 +626,6 @@ input:focus, select:focus {
         flex: 1;
     }
     
-    /* Toast */
     .toast {
         left: 20px;
         right: 20px;
