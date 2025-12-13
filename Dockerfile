@@ -1,18 +1,17 @@
 FROM php:8.2-apache
 
+# System deps
 RUN apt-get update && apt-get install -y \
     python3 \
     python3-pip \
     libpq-dev \
     && docker-php-ext-install mysqli pdo pdo_mysql
 
-RUN a2enmod rewrite
+# HARD FIX: only one Apache engine may exist
+RUN apt-get purge -y apache2-mpm-event apache2-mpm-worker && \
+    apt-get install -y apache2-mpm-prefork
 
-# HARD MPM FIX
-RUN rm -f /etc/apache2/mods-enabled/mpm_event.* \
-    /etc/apache2/mods-enabled/mpm_worker.* \
-    /etc/apache2/mods-enabled/mpm_prefork.* && \
-    a2enmod mpm_prefork
+RUN a2enmod rewrite
 
 COPY . /var/www/html/
 
