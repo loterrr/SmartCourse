@@ -7,9 +7,9 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     && docker-php-ext-install mysqli pdo pdo_mysql
 
-# 2. CRITICAL FIX: Manually delete the conflicting 'event' module
-# We use 'rm -f' to force verify the file is gone.
-RUN rm -f /etc/apache2/mods-enabled/mpm_event.load \
+# 2. CRITICAL FIX: Disable conflicting MPMs
+# We explicitly disable event AND worker to leave only prefork (required by PHP)
+RUN a2dismod mpm_event mpm_worker || true \
     && a2enmod mpm_prefork \
     && a2enmod rewrite
 
