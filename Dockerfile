@@ -1,16 +1,15 @@
 FROM php:8.2-apache
 
 # 1. Update apt and install Python 3
-# (Cleaned up formatting to remove invisible characters)
 RUN apt-get update && apt-get install -y \
     python3 \
     python3-pip \
     libpq-dev \
     && docker-php-ext-install mysqli pdo pdo_mysql
 
-# 2. Fix for "More than one MPM loaded" error
-# We forcibly disable mpm_event and ensure mpm_prefork is active for PHP
-RUN a2dismod mpm_event || true \
+# 2. FORCE FIX: Remove ALL existing MPMs to prevent conflicts
+# We delete any mpm config/load files and then enable ONLY mpm_prefork
+RUN rm -f /etc/apache2/mods-enabled/mpm_*.load /etc/apache2/mods-enabled/mpm_*.conf \
     && a2enmod mpm_prefork \
     && a2enmod rewrite
 
@@ -21,7 +20,6 @@ COPY . /var/www/html/
 RUN chmod +x /var/www/html/backend/recommendation_algorithm.py
 
 # 4.5 CRITICAL: Give Apache permission to write to files
-# (Fixed the formatting issue here)
 RUN chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html
 
 # 5. Configure Port (Railway specific magic)
