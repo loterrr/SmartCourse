@@ -17,8 +17,8 @@ COPY . /var/www/html/
 RUN chmod +x /var/www/html/backend/recommendation_algorithm.py
 
 # 4.5 CRITICAL: Give Apache permission to write to files (logs, etc.)
-RUN chown -R www-data:www-data /var/www/html && \
-    chmod -R 755 /var/www/html
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 755 /var/www/html
 
 # 5. Configure Port (Railway specific magic)
 RUN sed -i 's/80/${PORT}/g' \
