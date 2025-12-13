@@ -2,10 +2,10 @@ FROM php:8.2-apache
 
 # 1. Update apt and install Python 3
 RUN apt-get update && apt-get install -y \
-    python3 \
-    python3-pip \
-    libpq-dev \
-    && docker-php-ext-install mysqli pdo pdo_mysql
+    python3 \
+    python3-pip \
+    libpq-dev \
+    && docker-php-ext-install mysqli pdo pdo_mysql
 
 # 2. Enable Apache Rewrite
 RUN a2enmod rewrite
