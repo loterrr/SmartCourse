@@ -17,11 +17,12 @@ COPY . /var/www/html/
 RUN chmod +x /var/www/html/backend/recommendation_algorithm.py
 
 # 4.5 CRITICAL: Give Apache permission to write to files (logs, etc.)
-# Without this, file_put_contents() in your PHP will fail.
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html
+RUN chown -R www-data:www-data /var/www/html && \
+    chmod -R 755 /var/www/html
 
 # 5. Configure Port (Railway specific magic)
-RUN sed -i 's/80/${PORT}/g' /etc/apache2/sites-available/000-default.conf /etc/apache2/ports.conf
+RUN sed -i 's/80/${PORT}/g' \
+    /etc/apache2/sites-available/000-default.conf \
+    /etc/apache2/ports.conf
 
 CMD ["apache2-foreground"]
