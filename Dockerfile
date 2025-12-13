@@ -15,7 +15,6 @@ RUN chmod +x /var/www/html/backend/recommendation_algorithm.py
 RUN chown -R www-data:www-data /var/www/html \
     && chmmod -R 755 /var/www/html
 
-RUN sed -i 's/80/${PORT}/g' /etc/apache2/sites-available/000-default.conf
-/etc/apache2/ports.conf
+RUN sed -i 's/80/${PORT}/g' /etc/apache2/sites-available/000-default.conf/etc/apache2/ports.conf
 
 CMD ["apache2-foreground"]
