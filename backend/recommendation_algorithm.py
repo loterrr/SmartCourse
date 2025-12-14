@@ -6,7 +6,6 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 import math
 
-# Setup logging to file only (not stdout)
 LOG_DIR = Path(__file__).resolve().parent / "logs"
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 LOG_FILE = LOG_DIR / "recommendation.log"
@@ -26,7 +25,7 @@ class CourseRecommendationEngine:
             "workload": 0.15,
             "learning": 0.10,
         }
-        # FIX: These are now properly indented inside __init__
+
         self.course_database = self._load_courses()
         self.major_requirements = self._load_major_requirements()
 
@@ -42,7 +41,6 @@ class CourseRecommendationEngine:
             except Exception as e:
                 logger.exception("Failed to load courses.json; falling back to built-in catalog")
 
-        # Built-in course catalog
         return [
   {
     "id": 1,
@@ -553,7 +551,6 @@ class CourseRecommendationEngine:
         else:
             return max(0.0, 1.0 - (diff_gap * 0.5))
 
-    # FIX: This method is now properly indented inside the Class
     def generate_recommendations(self, student_data: Dict[str, Any], top_n: int = 15) -> List[Dict[str, Any]]:
         try:
             gpa = float(student_data.get("gpa", 3.0))
@@ -651,7 +648,6 @@ def cli_main() -> None:
         engine = CourseRecommendationEngine()
         recs = engine.generate_recommendations(student_data)
         
-        # Output ONLY clean JSON to stdout
         print(json.dumps(recs))
         sys.exit(0)
         
