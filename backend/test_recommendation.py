@@ -15,7 +15,7 @@ def test_generate_recommendations_basic():
     recs = engine.generate_recommendations(student, top_n=5)
     assert isinstance(recs, list)
     assert len(recs) <= 5
-    # Top recommendation should be a course object with expected keys
+
     top = recs[0]
     assert "course_code" in top
     assert "confidence_score" in top
@@ -23,7 +23,7 @@ def test_generate_recommendations_basic():
 
 def test_missing_fields_and_defaults():
     engine = CourseRecommendationEngine()
-    student = {"student_id": "s2"}  # no other fields
+    student = {"student_id": "s2"}
     recs = engine.generate_recommendations(student, top_n=3)
     assert len(recs) == 3
     for r in recs:
