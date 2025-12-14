@@ -1,4 +1,3 @@
-// Centralized authentication helpers for login/register pages
 const API_BASE = '/backend/api.php';
 
 function switchAuthTab(e, tab) {
@@ -35,7 +34,6 @@ async function handleLogin(e) {
         const data = await res.json();
         
         if (data && data.success && data.student) {
-            // Store student information
             localStorage.setItem('student_id', data.student.id);
             localStorage.setItem('student_name', `${data.student.first_name} ${data.student.last_name}`);
             
@@ -65,7 +63,6 @@ async function handleRegister(e) {
         major: document.getElementById('regMajor').value
     };
     
-    // Basic validation
     if (!formData.email || !formData.password || !formData.first_name || !formData.last_name) {
         showAlert('Please fill in all required fields', 'error');
         return;
@@ -87,7 +84,7 @@ async function handleRegister(e) {
         if (data && data.success) {
             showAlert('Registration successful! Please login.', 'success');
             setTimeout(() => {
-                // Switch to login tab and pre-fill email
+
                 switchAuthTab(null, 'login');
                 const emailEl = document.getElementById('loginEmail');
                 if (emailEl) emailEl.value = formData.email;
@@ -112,7 +109,6 @@ function showAlert(message, type) {
     const alertClass = type === 'success' ? 'alert-success' : 'alert-error';
     container.innerHTML = `<div class="alert ${alertClass}">${message}</div>`;
     
-    // Auto-clear after 5 seconds
     setTimeout(() => {
         if (container.innerHTML.includes(message)) {
             clearAlert();
@@ -125,7 +121,6 @@ function clearAlert() {
     if (container) container.innerHTML = '';
 }
 
-// Expose to global scope for inline HTML to call
 window.switchAuthTab = switchAuthTab;
 window.handleLogin = handleLogin;
 window.handleRegister = handleRegister;
