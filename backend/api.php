@@ -19,7 +19,6 @@ class CourseRecommendationAPI {
         exit;
     }
 
-    // ---------- USER REGISTRATION ----------
     public function register($data) {
         if (!isset($data['email'], $data['password'])) {
             return ['success' => false, 'message' => 'Missing fields'];
@@ -54,7 +53,6 @@ class CourseRecommendationAPI {
         }
     }
 
-    // ---------- LOGIN ----------
     public function login($data) {
         $sql = "SELECT * FROM students WHERE email=?";
         $stmt = $this->conn->prepare($sql);
@@ -68,7 +66,6 @@ class CourseRecommendationAPI {
         return ['success' => false, 'message' => 'Invalid credentials'];
     }
 
-    // ---------- PROFILE ----------
     public function getProfile($studentId) {
         $stmt = $this->conn->prepare("SELECT * FROM students WHERE id=?");
         $stmt->execute([$studentId]);
@@ -101,18 +98,15 @@ class CourseRecommendationAPI {
         }
     }
 
-    // ---------- COURSES ----------
     public function getCourses() {
         $stmt = $this->conn->query("SELECT * FROM courses ORDER BY department, course_code");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-// ---------- RECOMMENDATIONS ----------
 public function getRecommendations($studentId) {
     $profile = $this->getProfile($studentId);
     if (!$profile) return ['success' => false, 'message' => 'Student not found'];
 
-    // Prepare input data with proper defaults
     $input = [
         'student_id' => $studentId,
         'gpa' => floatval($profile['high_school_gpa'] ?? 3.0),
@@ -124,7 +118,6 @@ public function getRecommendations($studentId) {
 
     $inputJson = json_encode($input);
     
-    // Create temp file with proper error handling
     $tmpDir = sys_get_temp_dir();
     if (!is_writable($tmpDir)) {
         return ['success' => false, 'message' => 'Cannot write to temp directory'];
@@ -137,7 +130,6 @@ public function getRecommendations($studentId) {
     
     file_put_contents($tmp, $inputJson);
 
-    // Get the Python script path
     $scriptPath = __DIR__ . DIRECTORY_SEPARATOR . 'recommendation_algorithm.py';
     
     if (!file_exists($scriptPath)) {
@@ -145,27 +137,24 @@ public function getRecommendations($studentId) {
         return ['success' => false, 'message' => 'Recommendation script not found'];
     }
 
-    // Try Python executables in order of preference
     $pythonBins = ['python3', 'python', 'py'];
     $rawOutput = null;
     $errorOutput = null;
     
     foreach ($pythonBins as $bin) {
-        // Use absolute paths and proper escaping
         $script = escapeshellarg($scriptPath);
         $arg = escapeshellarg($tmp);
         
-        // Execute with both stdout and stderr capture
         $descriptors = [
-            0 => ["pipe", "r"],  // stdin
-            1 => ["pipe", "w"],  // stdout
-            2 => ["pipe", "w"]   // stderr
+            0 => ["pipe", "r"],
+            1 => ["pipe", "w"],
+            2 => ["pipe", "w"]
         ];
         
         $process = @proc_open("$bin $script $arg", $descriptors, $pipes);
         
         if (is_resource($process)) {
-            fclose($pipes[0]); // Close stdin
+            fclose($pipes[0]);
             
             $stdout = stream_get_contents($pipes[1]);
             $stderr = stream_get_contents($pipes[2]);
@@ -175,7 +164,6 @@ public function getRecommendations($studentId) {
             
             $returnCode = proc_close($process);
             
-            // Check if we got valid output
             if ($returnCode === 0 && !empty($stdout)) {
                 $decoded = json_decode($stdout, true);
                 if ($decoded !== null && json_last_error() === JSON_ERROR_NONE) {
@@ -184,19 +172,15 @@ public function getRecommendations($studentId) {
                 }
             }
             
-            // Store error for debugging
             if (!empty($stderr)) {
                 $errorOutput = $stderr;
             }
         }
     }
     
-    // Cleanup temp file
     @unlink($tmp);
 
-    // Check if we got valid output
     if (!$rawOutput) {
-        // Log the error
         $logMsg = date('Y-m-d H:i:s') . " Recommendation engine failed\n";
         $logMsg .= "Input: " . $inputJson . "\n";
         if ($errorOutput) {
@@ -210,8 +194,7 @@ public function getRecommendations($studentId) {
             'debug' => $errorOutput
         ];
     }
-
-    // Parse recommendations
+    
     $recs = json_decode($rawOutput, true);
     
     if (!is_array($recs)) {
@@ -221,25 +204,24 @@ public function getRecommendations($studentId) {
     return ['success' => true, 'recommendations' => $recs];
 }
 
-    // ---------- ENROLLMENT (simple logger) ----------
     public function enroll($data) {
         $student_id = $data['student_id'] ?? 0;
         $course_id = $data['course_id'] ?? 0;
         $semester = $data['semester'] ?? '';
 
-        // Try to persist to DB when connection is available
+
         if ($this->conn) {
             try {
                 $stmt = $this->conn->prepare("INSERT INTO enrollments (student_id, course_id, semester) VALUES (?, ?, ?)");
                 $stmt->execute([$student_id, $course_id, $semester]);
                 return ['success' => true, 'message' => 'Enrollment saved to database'];
             } catch (PDOException $e) {
-                // Fall through to file logging
+
                 file_put_contents(__DIR__ . '/logs/error.log', date('Y-m-d H:i:s') . " DB enroll failed: " . $e->getMessage() . "\n", FILE_APPEND);
             }
         }
 
-        // Fallback: log to file
+
         $logLine = date('Y-m-d H:i:s') . " | ENROLL | student_id={$student_id} | course_id={$course_id} | semester={$semester}\n";
         $logFile = __DIR__ . '/logs/enrollments.log';
         file_put_contents($logFile, $logLine, FILE_APPEND);
@@ -247,7 +229,6 @@ public function getRecommendations($studentId) {
         return ['success' => true, 'message' => 'Enrollment recorded (logged)'];
     }
 
-    // ---------- FEEDBACK (simple logger) ----------
     public function submitFeedback($data) {
         $student_id = $data['student_id'] ?? 0;
         $course_id = $data['course_id'] ?? 0;
@@ -262,10 +243,10 @@ public function getRecommendations($studentId) {
             'comments' => $comments
         ];
 
-        // Try to persist to DB when connection available. We'll try to link feedback to recommendations if possible.
+
         if ($this->conn) {
             try {
-                // If there's a matching recommendation for this student-course, link it
+ 
                 $recStmt = $this->conn->prepare("SELECT id FROM recommendations WHERE student_id = ? AND course_id = ? ORDER BY created_at DESC LIMIT 1");
                 $recStmt->execute([$student_id, $course_id]);
                 $rec = $recStmt->fetch(PDO::FETCH_ASSOC);
@@ -279,7 +260,6 @@ public function getRecommendations($studentId) {
             }
         }
 
-        // Fallback to file log
         $logFile = __DIR__ . '/logs/feedback.log';
         file_put_contents($logFile, json_encode($payload, JSON_UNESCAPED_UNICODE) . "\n", FILE_APPEND);
 
@@ -287,24 +267,15 @@ public function getRecommendations($studentId) {
     }
 }
 
-// Handle API routing only when executed via web server (not CLI). This avoids
-// attempting a DB connection when the file is included by CLI test scripts.
-// ... existing code above ...
-
-// Handle API routing
 if (php_sapi_name() !== 'cli') {
     try {
         $api = new CourseRecommendationAPI();
         
-        // 1. Get the JSON Body (if any)
         $inputJSON = file_get_contents('php://input');
         $data = json_decode($inputJSON, true) ?? [];
 
-        // 2. SMARTER ACTION DETECTION
-        // Check URL first (?action=...), then Check JSON body ({action:...}), then default to empty
         $action = $_GET['action'] ?? $data['action'] ?? '';
 
-        // Debugging: If action is missing, tell us what we received
         if (empty($action)) {
             echo json_encode([
                 'error' => 'Invalid action', 
