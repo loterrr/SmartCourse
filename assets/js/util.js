@@ -1,5 +1,3 @@
-// Small utilities used across the frontend
-
 async function postJSON(url, data) {
 	const res = await fetch(url, {
 		method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data)
@@ -13,7 +11,6 @@ function showInlineAlert(message, type = 'success', containerId = 'alertContaine
 	el.innerHTML = `<div class="alert ${type === 'success' ? 'alert-success' : 'alert-error'}">${message}</div>`;
 }
 
-// Export for pages
 window.postJSON = postJSON;
 window.showInlineAlert = showInlineAlert;
 
