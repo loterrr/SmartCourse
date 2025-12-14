@@ -1,7 +1,6 @@
 <?php
 require_once __DIR__ . '/api.php';
 
-// Instantiate without constructor to avoid DB connection in this test environment
 $rc = new ReflectionClass('CourseRecommendationAPI');
 $api = $rc->newInstanceWithoutConstructor();
 
