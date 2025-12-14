@@ -10,10 +10,9 @@
 </head>
 <body>
 <script>
-    // Block access if not logged in
     const id = localStorage.getItem('student_id');
     if (!id) {
-        window.location.href = "./login.html"; // or login page path
+        window.location.href = "./login.html";
     }
 </script>
 
