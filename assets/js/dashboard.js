@@ -3,27 +3,27 @@ let currentStudent = null;
 let recommendations = [];
 
 document.addEventListener("DOMContentLoaded", () => {
-    // Load initial dashboard
+
     if (document.getElementById("dashboard-view")) {
         loadStudentData();
     }
 
-    // Activate sidebar view switching
+
     document.querySelectorAll(".sidebar-icon").forEach(icon => {
         icon.addEventListener("click", async () => {
             const viewId = icon.dataset.view;
 
-            // Highlight selected sidebar icon
+
             document.querySelectorAll(".sidebar-icon")
                 .forEach(i => i.classList.remove("active"));
             icon.classList.add("active");
 
-            // Switch visible view
+
             document.querySelectorAll(".content-view")
                 .forEach(v => v.classList.remove("active"));
             document.getElementById(viewId).classList.add("active");
 
-            // Load content for each view
+
             if (viewId === "dashboard-view") loadStudentData();
             if (viewId === "recommendations-view") loadRecommendationsTab();
             if (viewId === "courses-view") loadCoursesTab();
@@ -31,11 +31,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // Setup profile form if it exists
     setupProfileForm();
 });
 
-// ===== STUDENT PROFILE =====
 async function loadStudentData() {
     try {
         const studentId = localStorage.getItem('student_id');
@@ -74,7 +72,7 @@ function updateProfileDisplay(student) {
     set('profileAvatar', initials);
 }
 
-// ===== RECOMMENDATIONS =====
+
 async function loadRecommendations(studentId) {
     try {
         const res = await fetch(`${API_BASE}?action=recommendations&student_id=${studentId}`);
@@ -150,7 +148,7 @@ function getConfidenceColor(score) {
 }
 
 async function loadRecommendationsTab() {
-    // Get the container in the recommendations-view
+
     const recommendationsView = document.getElementById("recommendations-view");
     if (!recommendationsView) return;
     
@@ -172,7 +170,7 @@ async function loadRecommendationsTab() {
 
         recommendations = data.recommendations;
         
-        // Display in the recommendations view container
+
         displayRecommendationsInView(container, recommendations);
 
     } catch (err) {
@@ -292,32 +290,32 @@ function switchTab(e, filter) {
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     if (e && e.target) e.target.classList.add('active');
     
-    // Check which view we're in
+
     const dashboardView = document.getElementById("dashboard-view");
     const recommendationsView = document.getElementById("recommendations-view");
     
     if (dashboardView && dashboardView.classList.contains('active')) {
-        // We're in dashboard view - use the dashboard container
+
         displayRecommendations(recommendations, filter);
     } else if (recommendationsView && recommendationsView.classList.contains('active')) {
-        // We're in recommendations view - use the recommendations view container
+
         const container = recommendationsView.querySelector(".course-list");
         displayRecommendationsInView(container, recommendations, filter);
     }
 }
 
-// ===== COURSES  =====
+
 async function loadCoursesTab() {
-    // Find the main section container within the courses view
+
     const coursesView = document.getElementById("courses-view");
     if (!coursesView) return;
     
-    // The content will be rendered inside the .recommendations-section
+
     const container = coursesView.querySelector(".recommendations-section");
     
     if (!container) return;
 
-    // Display loading state
+
     container.innerHTML = `
         <div class="loading" style="text-align:center; padding:40px;">
             <div class="spinner" style="margin:0 auto 20px;"></div>
@@ -330,7 +328,6 @@ async function loadCoursesTab() {
         
         if (!data) throw new Error('No data received');
         
-        // 1. Re-insert the proper HTML structure with the search bar and the course list container.
         container.innerHTML = `
             <div class="card-header">
                 <h2 style="margin:0">Browse All Courses</h2>
@@ -340,7 +337,7 @@ async function loadCoursesTab() {
             <div id="coursesList" class="course-list"></div>
         `;
 
-        const searchInput = document.getElementById("courseSearchInput"); // Changed ID to match HTML standard
+        const searchInput = document.getElementById("courseSearchInput");
         const listEl = document.getElementById("coursesList");
 
         function renderCourses(filter = "") {
@@ -356,7 +353,7 @@ async function loadCoursesTab() {
                 return;
             }
 
-            // Use the standard recommendation-item structure for display consistency
+
             listEl.innerHTML = filtered.map(c => `
                 <div class="recommendation-item">
                     <div class="rec-header">
@@ -378,11 +375,9 @@ async function loadCoursesTab() {
         }
 
         if (searchInput) {
-            // 2. Set up event listener for the search bar
             searchInput.addEventListener("input", e => renderCourses(e.target.value));
         }
-
-        // 3. Initial rendering of all courses
+        
         renderCourses();
 
     } catch (err) {
@@ -391,9 +386,7 @@ async function loadCoursesTab() {
     }
 }
 
-// ===== COURSE DETAILS =====
 async function viewCourseDetails(courseId) {
-    // First try to find in recommendations
     let course = recommendations.find(r => r.course_id === courseId);
     
     if (course) {
@@ -401,7 +394,6 @@ async function viewCourseDetails(courseId) {
         return;
     }
 
-    // Otherwise fetch from backend
     try {
         const res = await fetch(`${API_BASE}?action=courses`);
         const data = await res.json();
@@ -470,7 +462,6 @@ function closeModal() {
     if (modal) modal.remove();
 }
 
-// ===== ENROLLMENT =====
 async function enrollCourse(courseId) {
     if (!confirm("Are you sure you want to enroll in this course?")) return;
 
@@ -501,7 +492,6 @@ async function enrollCourse(courseId) {
     }
 }
 
-// ===== FEEDBACK =====
 async function provideFeedback(courseId) {
     const rating = prompt("Rate this recommendation (1-5):");
     if (!rating || rating < 1 || rating > 5) return;
@@ -536,19 +526,16 @@ async function provideFeedback(courseId) {
     }
 }
 
-// ===== PROFILE FORM =====
 function loadProfileForm() {
     const form = document.getElementById('profileForm');
     if (!form) return;
 
-    // Pre-fill student id from localStorage if not set
     const studentIdEl = document.getElementById('studentId');
     if (studentIdEl && !studentIdEl.value) {
         const sid = localStorage.getItem('student_id');
         if (sid) studentIdEl.value = sid;
     }
 
-    // Pre-fill with current student data if available
     if (currentStudent) {
         const careerEl = document.getElementById('careerInterests');
         const learningEl = document.getElementById('learningStyle');
@@ -603,10 +590,8 @@ function setupProfileForm() {
             if (resp && resp.success) {
                 showInlineAlert('Profile saved successfully. Refreshing recommendations...', 'success', 'profileAlert');
                 
-                // Reload student data
                 await loadStudentData();
                 
-                // Force refresh recommendations with new profile data
                 try {
                     const recRes = await fetch(`${API_BASE}?action=recommendations&student_id=${studentId}&refresh=1`);
                     const recData = await recRes.json();
@@ -617,11 +602,9 @@ function setupProfileForm() {
                     }
                 } catch (recErr) {
                     console.error('Error refreshing recommendations:', recErr);
-                    // Don't show error - profile was saved successfully
                 }
                 
                 setTimeout(() => {
-                    // Switch back to dashboard view
                     const dashboardBtn = document.querySelector('[data-view="dashboard-view"]');
                     if (dashboardBtn) dashboardBtn.click();
                 }, 1500);
@@ -643,7 +626,6 @@ function setupProfileForm() {
     });
 }
 
-// Helper function for POST requests
 async function postJSON(url, data) {
     const response = await fetch(url, {
         method: 'POST',
@@ -658,12 +640,10 @@ async function postJSON(url, data) {
     return await response.json();
 }
 
-// Helper function for inline alerts
 function showInlineAlert(message, type, containerId) {
     const container = document.getElementById(containerId);
     
     if (!container) {
-        // Fallback to toast notification if container not found
         if (type === 'success') {
             showSuccess(message);
         } else {
@@ -684,17 +664,14 @@ function showInlineAlert(message, type, containerId) {
     `;
     alertDiv.textContent = message;
 
-    // Clear previous alerts
     container.innerHTML = '';
     container.appendChild(alertDiv);
 
-    // Auto-remove after 5 seconds
     setTimeout(() => {
         alertDiv.remove();
     }, 5000);
 }
 
-// ===== NOTIFICATIONS =====
 function showSuccess(msg) {
     const toast = document.createElement("div");
     toast.style.cssText = `
@@ -733,7 +710,6 @@ function showError(msg) {
     setTimeout(() => toast.remove(), 3000);
 }
 
-// ===== LOGOUT =====
 function logout() {
     if (confirm('Are you sure you want to logout?')) {
         localStorage.removeItem('student_id');
@@ -741,7 +717,6 @@ function logout() {
     }
 }
 
-// Expose functions globally
 window.switchTab = switchTab;
 window.generateRecommendations = generateRecommendations;
 window.generateRecommendationsForView = generateRecommendationsForView;
