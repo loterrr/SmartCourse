@@ -1,6 +1,4 @@
-/* =========================================
-   RESET & BASIC SETUP
-   ========================================= */
+
 * { 
     margin: 0; 
     padding: 0; 
@@ -14,9 +12,6 @@ body {
     min-height: 100vh;
 }
 
-/* =========================================
-   HEADER
-   ========================================= */
 .header {
     display: flex;
     justify-content: space-between;
@@ -68,18 +63,14 @@ body {
     background: #5a7bc9; 
 }
 
-/* =========================================
-   LAYOUT CONTAINER
-   ========================================= */
 .container { 
     display: flex; 
     gap: 20px; 
     max-width: 1600px; 
     margin: 0 auto; 
-    position: relative; /* Needed for sticky sidebar context */
+    position: relative;
 }
 
-/* Burger Menu - We keep this hidden as we are using Bottom Nav */
 .burger-menu {
     display: none;
 }
@@ -88,9 +79,6 @@ body {
     display: none;
 }
 
-/* =========================================
-   SIDEBAR (DESKTOP DEFAULT)
-   ========================================= */
 .sidebar {
     width: 100px; 
     background: #6B8FEC; 
@@ -117,7 +105,7 @@ body {
     justify-content: center;
     cursor: pointer; 
     transition: background 0.3s;
-    text-decoration: none; /* In case you use <a> tags */
+    text-decoration: none;
 }
 
 .sidebar-icon.active { 
@@ -132,9 +120,6 @@ body {
     font-size: 40px; 
 }
 
-/* =========================================
-   MAIN CONTENT AREA
-   ========================================= */
 .main-content { 
     display: flex; 
     gap: 20px; 
@@ -156,9 +141,6 @@ body {
     display: block; 
 }
 
-/* =========================================
-   PROFILE CARD
-   ========================================= */
 .profile-card {
     background: white; 
     border: 3px solid #6B8FDB; 
@@ -220,9 +202,6 @@ body {
     color: #555; 
 }
 
-/* =========================================
-   SECTIONS & CARDS
-   ========================================= */
 .recommendations-section,
 .simple-section {
     background: white; 
@@ -235,9 +214,6 @@ body {
     margin-bottom: 20px;
 }
 
-/* =========================================
-   TABS
-   ========================================= */
 .tabs { 
     display: flex; 
     gap: 10px; 
@@ -267,9 +243,6 @@ body {
     background: #2126ba;
 }
 
-/* =========================================
-   RECOMMENDATION ITEMS
-   ========================================= */
 .course-list { 
     display: flex; 
     flex-direction: column; 
@@ -340,9 +313,6 @@ body {
     gap: 10px;
 }
 
-/* =========================================
-   FORMS
-   ========================================= */
 #profileSection { 
     background: white; 
     border: 3px solid #6B8FDB; 
@@ -385,9 +355,6 @@ input:focus, select:focus {
     border-color: #6B8FDB;
 }
 
-/* =========================================
-   BUTTONS
-   ========================================= */
 .btn-primary {
     background: #6B8FDB; 
     color: white; 
@@ -419,9 +386,6 @@ input:focus, select:focus {
     background: #b0c2db;
 }
 
-/* =========================================
-   UTILITIES & LOADERS
-   ========================================= */
 .courseSearchInput {
     width: 100%;
     padding: 12px;
@@ -460,9 +424,6 @@ input:focus, select:focus {
     100% { transform: rotate(360deg); }
 }
 
-/* =========================================
-   TOAST NOTIFICATIONS
-   ========================================= */
 .toast {
     position: fixed;
     bottom: 30px;
@@ -495,9 +456,6 @@ input:focus, select:focus {
     }
 }
 
-/* =========================================
-   MEDIA QUERIES (MOBILE RESPONSIVE)
-   ========================================= */
 @media (max-width: 1200px) {
     .container {
         flex-direction: column;
@@ -522,63 +480,56 @@ input:focus, select:focus {
 }
 
 @media (max-width: 768px) {
-    /* 1. Add bottom padding to body so content isn't hidden behind the bar */
     body {
         padding: 10px;
         padding-bottom: 90px;
     }
 
-    /* 2. Header Adjustments */
     .header {
         margin-bottom: 20px;
         padding: 0 5px;
     }
 
    .logo img {
-           height: 35px; /* Smaller logo for mobile */
+           height: 35px;
        }
 
-    /* Hide User Name/Section on mobile to save space */
     .user-section {
         display: none;
     }
 
-    /* 3. Hide Burger Menu (We are using Bottom Nav instead) */
     .burger-menu {
         display: none;
     }
-
-    /* 4. Transform Sidebar to Fixed Bottom Nav */
     .sidebar {
         position: fixed;
-        top: auto;      /* Reset top */
-        bottom: 0;      /* Stick to bottom */
+        top: auto;
+        bottom: 0;
         left: 0;
         
         width: 100%;
-        height: 70px;   /* Fixed height */
+        height: 70px;
         margin: 0;
         padding: 0;
         
-        flex-direction: row;        /* Horizontal icons */
-        justify-content: space-around; /* Evenly spaced */
+        flex-direction: row;
+        justify-content: space-around;
         align-items: center;
         gap: 0;
 
-        background: #ffffff;        /* White background */
-        border-radius: 20px 20px 0 0; /* Rounded top corners */
+        background: #ffffff;
+        border-radius: 20px 20px 0 0;
         border-top: 1px solid #e0e0e0;
         box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
         z-index: 9999;
     }
 
-    /* 5. Mobile Sidebar Icons */
     .sidebar-icon {
         width: auto;
         height: 100%;
-        flex: 1; /* Stretch to fill width */
+        flex: 1;
         background: transparent;
-        color: #b0c2db; /* Gray-blue inactive */
+        color: #b0c2db;
         border-radius: 0;
         display: flex;
         align-items: center;
@@ -592,7 +543,6 @@ input:focus, select:focus {
         font-size: 24px;
     }
 
-    /* Active State for Mobile (Top Border Indicator) */
     .sidebar-icon.active {
         background: transparent;
         color: #6B8FEC;
@@ -603,7 +553,6 @@ input:focus, select:focus {
         background: #f9f9f9;
     }
 
-    /* 6. Layout Adjustments */
     .container {
         display: block;
         gap: 15px;
@@ -614,7 +563,6 @@ input:focus, select:focus {
         width: 100%;
     }
 
-    /* 7. Profile Card Mobile */
     .profile-card {
         width: 100%;
         margin-bottom: 20px;
@@ -628,7 +576,7 @@ input:focus, select:focus {
         width: 70px;
         height: 70px;
         font-size: 28px;
-        margin: 0 20px 0 0; /* Margin right */
+        margin: 0 20px 0 0;
     }
     
     .profile-major {
@@ -636,10 +584,9 @@ input:focus, select:focus {
     }
 
     .profile-stats {
-        display: none; /* Hide stats on mobile profile card to save space */
+        display: none;
     }
-
-    /* 8. Generic Mobile Adjustments */
+   
     .recommendations-section, 
     .simple-section,
     #profileSection {
